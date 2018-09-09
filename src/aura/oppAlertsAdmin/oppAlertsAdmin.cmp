@@ -1,0 +1,9 @@
+<aura:component >
+    <aura:attribute name="oppAlertAdmin" type="Admin.AlertSettings"/>
+    <lightning:tab label="Alerts" id="three">
+        <ui:inputCheckbox aura:id="checkbox-close-date" label="List View" value="{!v.oppAlertAdmin.closeDate}"/>
+        <ui:inputCheckbox aura:id="checkbox-notes" label="Alerts" value="{!v.oppAlertAdmin.notes}"/>
+        <ui:inputCheckbox aura:id="checkbox-sales" label="Calendar" value="{!v.oppAlertAdmin.sales}"/>
+        <ui:inputCheckbox aura:id="checkbox-update-alerts" label="Contacts" value="{!v.oppAlertAdmin.updateAlerts}"/>
+    </lightning:tab>
+</aura:component>

@@ -1,0 +1,6 @@
+.THIS.EditOpty.ShowEditOptyOverlay{
+        display:block!important;
+    }
+.THIS.EditOpty.HideEditOptyOverlay, .THIS.EditOpty{
+        display:none;
+    }

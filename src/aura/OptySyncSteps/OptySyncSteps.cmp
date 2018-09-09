@@ -1,0 +1,146 @@
+<aura:component controller="OptyLightningController">
+    
+    <aura:attribute name="StepListTemp" type="string[]" default="['Step 1','Step 2','Step 3','Step 4']"/>
+    <aura:attribute name="StepList" type="string[]"/>
+    <aura:attribute name="activeStep" type="string"/>
+    <aura:attribute name="ResetSynProcess" type="string"/>
+    <aura:attribute name="NextButton" type="string" default="ShowNext"/>
+    <aura:attribute name="FinishButton" type="string" default="HideFinish"/>
+    <aura:attribute name="activeStepIndex" type="string"/>
+    <aura:attribute name="FieldsList" type="List"/>
+    <aura:attribute name="RelatedListNames" type="List"/>
+    <aura:attribute name="RecordListstosync" type="string"/>
+    <aura:attribute name="fieldstosync" type="string"/>
+    <aura:attribute name="fieldstosyncForRecordLoad" type="string[]"/>
+    <aura:attribute name="targetURL" type="string"/>
+    <aura:attribute name="OptyToSync" type="string"/>
+    <aura:attribute name="RecordToSync" type="string"/>
+    <aura:attribute name="recordError" type="string"/>
+    
+    <aura:handler name="init" action="{!c.LoadFirstStep}" value="{!this}"/>
+    <aura:handler name="LightningCMPProcessBuilderNext" action="{!c.NextStep}" event="c:LightningCMPProcessBuilderNext"/>
+    <aura:handler name="change" value="{!v.ResetSynProcess}" action="{!c.ResetProcess}"/>
+    
+    <aura:registerEvent name="FinishSyncProcess" type="c:FinishSyncProcess"/>
+    
+    
+    <div aura:id="StepContainer" class="slds-modal__content slds-grow slds-p-around_medium" id="modal-content-id-1">               
+        <div class="Step0 StepInactive" step-id="1" >
+            <legend class="slds-form-element__legend slds-form-element__label">Select the fields to Sync</legend>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <span>1</span>
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control" aura:id="FieldsToSelect">
+                            <aura:iteration items="{!v.FieldsList}" indexVar="index" var="Field" start='0' end='10'>
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="{!'checkbox-'+index}" value="{!Field.key}" />
+                                    <label class="slds-checkbox__label" for="{!'checkbox-'+index}">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">{!Field.value}</span>
+                                    </label>
+                                </span>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <span>2</span>
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control" aura:id="FieldsToSelect">
+                            <aura:iteration items="{!v.FieldsList}" indexVar="index" var="Field" start='10' end='20'>
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="{!'checkbox-'+index}" value="{!Field.key}" />
+                                    <label class="slds-checkbox__label" for="{!'checkbox-'+index}">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">{!Field.value}</span>
+                                    </label>
+                                </span>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <span>3</span>
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control" aura:id="FieldsToSelect">
+                            <aura:iteration items="{!v.FieldsList}" indexVar="index" var="Field" start='20' end='30'>
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="{!'checkbox-'+index}" value="{!Field.key}" />
+                                    <label class="slds-checkbox__label" for="{!'checkbox-'+index}">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">{!Field.value}</span>
+                                    </label>
+                                </span>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="Step1 StepInactive" step-id="2" >
+            <legend class="slds-form-element__legend slds-form-element__label">Select the RelatedLists to Sync</legend>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <span>1</span>
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control" aura:id="RelatedListsToSelect">
+                            <aura:iteration items="{!v.RelatedListNames}" indexVar="index" var="ListNames" start='0' end='10'>
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" name="RelatedListoptions" id="{!'RelatedListcheckbox-'+index}" fieldName="{!ListNames.field}" value="{!ListNames.childSObject+':'+ListNames.field}" />
+                                    <label class="slds-checkbox__label" for="{!'RelatedListcheckbox-'+index}">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">{!ListNames.childSObject}</span>
+                                    </label>
+                                </span>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="Step2 StepInactive" step-id="3" >
+            <legend class="slds-form-element__legend slds-form-element__label">Target to Sync to</legend>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="AvailableTargertsToSync">Available Targets</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <select class="slds-select" aura:id="TargetURL" value="{!v.targetURL}" id="AvailableTargertsToSync">
+                            <option value="">Please select one</option>
+                            <option value="https://webhook.site/92a25d55-8f67-4af5-9cae-65e0b81c84c6">My Target 1</option>
+                            <option value="https://webhook.site/2556ce9d-03e8-4472-a76b-46032bfb20fa">My Target 2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Step3 StepInactive" step-id="4" >
+            <legend class="slds-form-element__legend slds-form-element__label">Review the Sync settings</legend>
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <span>Record Selected: </span>
+                    <h1>{!v.OptyToSync}</h1>
+                </div>
+                <div class="slds-col">
+                    <span>Fields Selected: </span>
+                    <h1>{!v.fieldstosync}</h1>
+                </div>
+                <div class="slds-col">
+                    <span>Target: <h1>{!v.targetURL}</h1></span>
+                </div>
+            </div>
+        </div>
+        <!--div class="Step3 StepInactive" step-id="3" >Step 4</div-->
+    </div>
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.OptyToSync}"
+                      fields="{!v.fieldstosyncForRecordLoad}"
+                      targetFields="{!v.RecordToSync}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordLoad}"
+                      />
+    <c:LightningCMPFooterBar ResetSynProcess="{!v.ResetSynProcess}" ActiveStep="{!v.activeStepIndex}" FinishButton="{!v.FinishButton}" NextButton="{!v.NextButton}"/>
+    
+</aura:component>

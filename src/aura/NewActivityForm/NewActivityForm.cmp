@@ -1,0 +1,63 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable"> 
+    <aura:attribute name="ShowNewActivity" type="String" default="Hide" />
+    <aura:attribute name="ActivityRecord" type="Object"/>
+    <aura:attribute name="error" type="String"/>
+    <aura:attribute name="ActivityRecordFields" type="Object"/>
+    
+     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="onSaveSuccess" event="force:navigatetosobject" action="{!c.handlenavigation}"/>
+    
+        <div class="{!'demo-only ' +v.ShowNewActivity}">
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="id-of-modalheader-h2" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick="{!c.CancelEditActivity}" title="Close">
+                     <lightning:icon iconName="utility:close" size="xx-small"/>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">New Activity</h2>
+                <!--p class="slds-m-top_x-small">Add any text like Activity Name</p-->
+            </header>
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <div class="slds-grid slds-grid_vertical slds-p-around_medium">
+                    
+                    <div class="slds-scrollable">
+						<!--lightning:recordForm 
+                                              objectApiName="Task"
+                                              recordId="00T7F00000nVxWxUAK"
+											  aura:id="NewActivityForm"                                              
+                                              mode="edit"                                              
+                                              layoutType="Compact"
+                                              onsuccess="{!c.SaveEditActivity}"
+                                              oncancel="{!c.CancelEditActivity}"
+                                              /-->
+                        
+                        <force:recordData aura:id="NewActivityForm"
+                                          recordId="v.recordId"
+                            layoutType="FULL"
+                            targetRecord="{!v.ActivityRecord}"
+							targetFields="{!v.ActivityRecordFields}"
+                                          targetError="{!v.error}"
+                            mode="VIEW"
+                            />
+                        <lightning:card iconName="action:new_task" title="Create Activity">
+                            <div class="slds-p-horizontal--small">
+                                <lightning:inputField aura:id="ActivityField" fieldName="subject" label="Subject" value="{!v.ActivityRecordFields.Subject}"/>
+                                <lightning:input aura:id="ActivityField" label="Assign To" value="{!v.ActivityRecordFields.OwnerId}"/>
+                                <lightning:input aura:id="ActivityField" label="Due Date" value="{!v.ActivityRecordFields.ActivityDate}"/>
+                                <lightning:input aura:id="ActivityField" label="Name" value="{!v.ActivityRecordFields.WhoId}"/>
+                                <lightning:input aura:id="ActivityField" label="Related To" value="{!v.ActivityRecordFields.WhatId}"/>
+                                <lightning:input aura:id="ActivityField" label="Status" value="{!v.ActivityRecordFields.Status}"/>
+                                <br/>
+                                <lightning:button label="Save Activity" variant="brand" onclick="{!c.handleSaveActivity}"/>
+                            </div>
+                        </lightning:card>
+					</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</div>
+    
+</aura:component>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Alerts__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>Alerts</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Calendar__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>Calendar</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Contacts__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>Contacts</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>List_View__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>List View</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>New_Opty_Task__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Create a new Opty task using this feature and assign to your Opty team memeber</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Create a new Opty task using this feature and assign to your Opty team memeber</inlineHelpText>
+        <label>New Opty Task</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>OptySearch__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Opty List Search</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Search for a record from the displayed Opty Records</inlineHelpText>
+        <label>OptySearch</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Opty_Quick_Edit__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Edit Opty from the dashboard</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Edit limited set of fields of an Opty on the fly by enabling this feature</inlineHelpText>
+        <label>Opty Quick Edit</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Opty_Record_Inline_Menu__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Inline Menu display</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Menu for inline record actions</inlineHelpText>
+        <label>Opty Record Inline Menu</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Opty_Record_count__c</fullName>
+        <description>Number of records to display on Opty List</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Number of records to display on Opty List</inlineHelpText>
+        <label>Opty Record count</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Opty_Sync__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Sync the Opportunity Fields and related Lists</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Use this feature to sync your opportunity and it&apos;s related list data to a database that you desire</inlineHelpText>
+        <label>Opty Sync</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Admin Setup</label>
+    <visibility>Public</visibility>
+</CustomObject>

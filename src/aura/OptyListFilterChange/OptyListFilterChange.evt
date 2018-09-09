@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event template">
+	<aura:attribute name="OptyListFilter" type="String"/>
+    <aura:attribute name="FilterLabel" type="String"/>
+</aura:event>

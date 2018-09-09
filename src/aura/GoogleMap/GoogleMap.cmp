@@ -1,0 +1,52 @@
+<aura:component access="global">
+    <!-- Needed to send messages to VF page. But we will get it from VF itself -->
+    <aura:attribute name="vfHost" type="String" default="" />
+    <!-- Google Map options -->
+    <aura:attribute name="mapOptions" type="Object" default='{"zoom": 4}' />
+    <aura:attribute name="location" type="String" />
+    <aura:attribute name="showMaps" type="boolean" default="false"/>
+    
+    <!-- 
+		Goole map option to set center becasue it's required in following format
+		{"lat":-25.363882, "lng":131.044922}
+	 -->
+    <aura:attribute name="mapOptionsCenter" type="Object" />
+    <!--
+		Google map data for marker in following format
+		[{"lat":-25.363882, "lng":131.044922, "markerText":"This is an account"}]
+   	-->
+    <aura:attribute name="mapData" type="Object[]" />
+    
+    <aura:attribute name="loadMap" type="Boolean" default="false" />
+    
+    <!-- Domain of LC for VF to send message -->
+    <aura:attribute name="lcHost" type="String" />
+    
+    
+    <!-- Set listener from VF. This is to check when VF is loaded so we can send marker data -->
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit2}" />-->
+    <!--<aura:handler name="gMaps" event="c:GoogleMapEvent" action="{!c.doInit2}"/>-->
+    <aura:method name="loadGoogleMaps" action="{!c.doInit2}" access="global">
+        <aura:attribute name="mapOptionsCenter" type="Object"/>
+		<aura:attribute name="mapData" type="Object[]" />
+        <aura:attribute name="location" type="String" />
+    </aura:method>    
+
+<div class="maps" aura:id="mapsModal">
+  <section  role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+      <header class="slds-modal__header">
+          <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.hideModal}">
+    		<lightning:icon iconName="utility:close" size="medium" variant="bare"/>
+    		<span class="slds-assistive-text">Close</span>
+          </button>
+      </header>
+      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <iframe aura:id="vfFrame" allow="geolocation *" src="{! '/apex/GoogleMap?lcHost=' + v.lcHost}" width="100%" height="500" frameborder="1"/>
+      </div>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</div>
+
+</aura:component>

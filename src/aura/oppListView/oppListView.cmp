@@ -1,0 +1,83 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="Opportunities" type="Opportunity[]"/>
+    <aura:attribute name="EditOpty" type="Opportunity.Id"/>
+    <aura:attribute name="ShowEditOpty" type="String"/>
+    <aura:attribute name="ShowNewOpty" type="String" default="Hide"/>
+    <aura:attribute name="ShowFastOptyLineItemOverLay" type="String" default="hide"/>
+    <aura:attribute name="EditOptyType" type="String"/>
+    
+    <aura:handler name="EditOpty" event="c:EditOpty" action="{!c.HandleEditOpty}"/>
+    <aura:handler name="showToast" event="force:showToast" action="{!c.handlenavigation}"/>
+    
+    <lightning:layoutItem>
+        <c:NewOptyForm ShowNewOpty="{!v.ShowNewOpty}" />
+    </lightning:layoutItem>
+    <aura:if isTrue="{!v.EditOptyType}">
+        <lightning:layoutItem>
+            <c:NewOpportunityProduct_FastOptyLineItemCMP EditOpty="{!v.EditOpty}" ShowFastOptyLineItemOverLay="{!v.ShowFastOptyLineItemOverLay}" />
+        </lightning:layoutItem>
+    </aura:if>
+    <lightning:layoutItem>
+        <c:EditOptyOverlay EditOpty="{!v.EditOpty}" ShowEditOpty="{!v.ShowEditOpty}" />
+    </lightning:layoutItem>
+    <div class="slds-page-header">
+        <div class="slds-media">
+            <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                    <lightning:icon iconName="standard:opportunity"/>
+                </span>
+            </div>
+            <div class="slds-media__body">
+                <p class="slds-text-body_small slds-line-height_reset">opportunities</p>
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Rohde Corp - 80,000 Widgets">My Opportunities</h1>
+            </div>
+            <lightning:buttonMenu menuAlignment="right" class="slds-media slds-media_center slds-m-right_xx-small" iconName="utility:settings" alternativeText="Settings" onselect="{! c.handleMenuSelect }">
+                <lightning:menuItem label="Add Product" value="AddProduct" />
+                <lightning:menuItem label="Add Activity" value="AddActivity"/>
+                <lightning:menuItem iconName="utility:new" label="Create new Opportunity" value="NewOpty">
+                </lightning:menuItem>
+            </lightning:buttonMenu>
+        </div>      
+    </div>
+    <div class="slds-modal__content slds-grid slds-grow" id="modal-content-id-1">
+        <div class="slds-form" role="list">
+            <div class="slds-grid slds-gutters_small">
+                <div class="slds-col slds-has-flexi-truncate slds-p-right_none" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <input type="text" class="slds-input slds-combobox__input" id="combobox-unique-id-2" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search" />
+                                <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                    <lightning:icon iconName="utility:search" size="xx-small"/>
+                                </span>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-has-flexi-truncate slds-p-left_none" role="listitem">
+                    <c:ListFilter/>
+                </div>
+            </div>
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout">
+                <thead>
+                    <tr class="slds-text-heading_label">
+                        <th scope="col"><div class="slds-truncate" title="Select Opportunity">Select Opty</div></th>
+                        <th scope="col"><div class="slds-truncate" title="Pick your favorite">Select Opty</div></th>
+                        <th scope="col"><div class="slds-truncate" title="Name">Name</div></th>
+                        <th scope="col"><div class="slds-truncate" title="Type">Probability</div></th>
+                        <th scope="col"><div class="slds-truncate" title="Account">AccountId</div></th>
+                        <th scope="col"><div class="slds-truncate" title="Stage">StageName</div></th>
+                        <th scope="col"><div class="slds-truncate" title="CreatedDate">CreatedDate</div></th>
+                        <th scope="col"><div class="slds-truncate" title="Edit Opportunity">Edit</div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Use the Apex model and controller to fetch server side data -->
+                    <aura:iteration items="{!v.Opportunities}" var="Opportunity">
+                        <c:OppCMP Opportunity="{!Opportunity}"/>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

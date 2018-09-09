@@ -1,0 +1,85 @@
+.THIS {
+	box-shadow: 1px 1px 1px 1px #808080;
+    font-size: 0.9em
+}
+
+
+.THIS .fc-scroller.fc-day-grid-container{
+    overflow: hidden !important;
+    height: 175px !important;
+}
+.THIS .fc-row.fc-week.fc-rigid{
+    height:2.5em !important;
+    min-height: 2.5em;
+}
+
+.THIS .fc-list-view{
+    height: 190px !important;
+}
+
+.THIS .fc-list-view .fc-scroller{
+    height: auto !important;
+}
+
+.THIS .event-buttons{
+    float:right;
+}
+
+.THIS .slds-dropdown__item>a:hover{
+    color: #ffffff;
+}
+
+.THIS .fc-row td{
+    cursor: pointer;
+}
+
+.THIS .slds-button_neutral{
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+        
+}
+
+.THIS .slds-box{
+    border-radius:0;
+    background: #ffffff;
+    border:0;
+}
+
+.THIS .fc-day-grid-event{
+    margin: 1px 1px 0px;
+    padding: 0 1px;
+}
+
+.THIS .fc-event{
+    /*font-size: 0.65em;*/
+    /*display:none;*/
+    /*visibility: hidden;*/
+}
+
+.THIS a.fc-more{
+    /*display: none;*/
+}
+.THIS tr:first-child>td>.fc-day-grid-event{
+    margin-top:1px;
+}
+
+.THIS .fc-content-skeleton td.cal-event-circle > a.fc-day-number{
+    border-radius: 20px;
+    /* border-color: #464075; */
+    border: 1px solid;
+    color: #3f219c;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 1em;
+}
+
+.THIS .fc td
+{
+    border:0;
+}
+
+.THIS .fc-content-skeleton .hide-tbody{
+    visibility: hidden;
+}

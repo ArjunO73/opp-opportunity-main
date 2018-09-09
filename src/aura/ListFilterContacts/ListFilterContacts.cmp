@@ -1,0 +1,18 @@
+<aura:component>
+    <aura:attribute name="options" type="List" default="[
+                    { id: 'MyContactList', label: 'My Key Contacts', selected: true },
+                    { id: 'AccContactList', label: 'My Account Contacts' },
+                    { id: 'OppContactList', label: 'My Opportunity Contacts' }
+                ]"/>
+    <aura:attribute name="ContactListFilter" type="String"/>
+    <aura:registerEvent name="ContactListFilterChange" type="c:ContactListFilterChange"/>
+    <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+    	<div class="slds-form-element__control header-dropdown">
+                <ui:inputSelect class="slds-text-link_faux single slds-select" aura:id="InputSelectSingle" change="{!c.onSingleSelectChange}">
+                    <aura:iteration items="{!v.options}" var="option">
+                                <ui:inputSelectOption label = "{!option.label}" text="{!option.id}" value="{!option.selected}"/>
+                     </aura:iteration>
+                </ui:inputSelect>
+            </div>
+        </div>
+</aura:component>

@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Lightning Process">
+	<aura:attribute name="ProcessStepChange" type="String"/>
+</aura:event>

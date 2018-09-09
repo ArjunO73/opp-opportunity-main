@@ -1,0 +1,7 @@
+<aura:component>
+	<aura:attribute name="oppContactTab" type="Admin.ContactsSettings"/>
+    <lightning:tab label="Contacts" id="five">
+        <ui:inputCheckbox aura:id="checkbox-all-contacts" label="List View" value="{!v.oppContactTab.allContacts}"/>
+        <ui:inputCheckbox aura:id="checkbox-my-contacts" label="Alerts" value="{!v.oppContactTab.myContacts}"/>
+    </lightning:tab>
+</aura:component>

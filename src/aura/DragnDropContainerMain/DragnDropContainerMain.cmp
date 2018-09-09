@@ -1,0 +1,8 @@
+<aura:component controller="DragDropMainController" implements="flexipage:availableForAllPageTypes,force:appHostable">
+    <aura:handler event="force:showToast" action="{!c.toastInfo}" />
+    <c:MyContactList aura:id="contactsPanel" />
+    <c:fullCalendar/>
+    
+    <!-- <div class="droparea" droppable="true" ondragover="{!c.cancel}" ondragenter="{!c.cancel}" ondrop="{!c.drop}">-->
+    <!--</div>-->
+</aura:component>

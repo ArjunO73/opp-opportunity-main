@@ -1,0 +1,46 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="OptyLightningController">
+    <aura:attribute name="sObjectRecords" type="sObject[]"/>
+    <aura:attribute name="FilterName" type="String" default="mine"/>
+    <aura:attribute name="filterlabel" type="String" default="My Opportunities"/>
+    <aura:attribute name="Favorites" type="String"/>
+    <aura:attribute name="userPreference" type="Admin"/>
+    <aura:attribute name="adminSettings" type="Admin_Setup__c" required="true"/>
+    <aura:attribute name="ShowSyncOptyProcess" type="String" default="Hide"/>
+    <aura:attribute name="OptyToSync" type="String"/>
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler name="OptyListFilterChange" action="{!c.doInit}" event="c:OptyListFilterChange"/>
+    <aura:handler name="NewFavoriteOpty" action="{!c.NewFavoriteOpty}" event="c:NewFavoriteOpty"/>
+    <aura:handler name="onSaveSuccess" event="force:recordSaveSuccess" action="{!c.handleSaveSuccess}"/>
+    <aura:handler event="force:showToast" action="{!c.toastInfo}" />
+    <aura:handler name="ShowSyncOptyProcess" event="c:SyncOptyProcessTrigger" action="{!c.handleShowSyncOptyProcess}"/>
+    
+    <div class="c-container slds-grid slds-gutters_x-small slds-wrap">
+        <aura:if isTrue="{!v.userPreference.listView}">
+            <div class="slds-col slds-size_2-of-3 slds-p-vertical_x-small ">
+                <c:OppListCMP filterlabel="{!v.filterlabel}" oppSettings="{!v.userPreference.opportunitySettings}" Opportunities="{!v.sObjectRecords}"/>
+            </div>
+            <!--Needed for Opty Sync. Please let Arjun know before moving this away-->
+            <c:LightningCMPProcessbuilder OptyToSync="{!v.OptyToSync}" ProcessName="Sync Opty" ShowSyncOptyProcess="{!v.ShowSyncOptyProcess}"/>
+            
+        </aura:if>
+        <aura:if isTrue="{!v.userPreference.alertsView}">
+            <div class="slds-col slds-size_1-of-3 slds-p-vertical_x-small ">
+                <c:eventsContainer/><!--oppAlerts-->
+            </div>
+        </aura:if>
+        <!--div class="slds-col slds-size_1-of-3 slds-p-vertical_x-small ">
+            <c:oppSettings/><oppAlerts>
+        </div-->
+        <aura:if isTrue="{!v.userPreference.contactView}">
+            <div class="slds-col slds-size_1-of-3 slds-p-vertical_x-small ">
+                <c:MyContactList aura:id="contactsPanel" />
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.userPreference.calendarView}">
+            <div class="slds-col slds-size_1-of-3 slds-p-vertical_x-small ">
+                <c:fullCalendar/>
+            </div>
+        </aura:if>
+    </div>    
+</aura:component>

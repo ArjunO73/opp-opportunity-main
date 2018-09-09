@@ -1,0 +1,30 @@
+<aura:component controller="gettestnotes" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:appHostable" access="global" >
+	
+	<!--aura:attribute name="btnDisable" type="Boolean" default="true"/-->
+   
+   <aura:attribute name="opptyId" type="String" default="0062800000EH7MvAAL"/>
+    
+   <aura:attribute name="oppty" type="Opportunity"/> 
+   <aura:attribute name="myNotesList" type="List"/>
+   <aura:attribute name="myNotes" type="Note"/>
+
+   <aura:handler name="init" value="{!this}" action="{!c.dataLoad}"/> 
+   <aura:handler event="c:OANotesEvent" action="{!c.handleEvent}"/> 
+   <lightning:overlayLibrary aura:id="overlayLib"/>    
+   		<c:SelectComp/>
+   		<div  class="slds-media__body">
+          <p>
+              Opportunity ID   :{!v.oppty.Id}  
+              Opportunity Name :{!v.oppty.Name}
+          </p>    
+          <lightning:textarea aura:id="txtNotes" class="topText" name="newNotes" label="Notes Description" value="{!v.myNotes.Body}" maxlength="1000" />
+        </div>
+    
+  	<footer class="slds-modal__footer">
+
+	<lightning:button name="cancel" label="Cancel" onclick="{!c.handleCancel}"/>
+	<lightning:button name="save" label="Save" variant="brand" onclick="{!c.setData}"/>
+    
+	</footer>
+	    
+</aura:component>

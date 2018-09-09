@@ -1,0 +1,12 @@
+.THIS .topText textarea {
+   height:100%;
+   background-color: rgb(244, 237, 132);
+   border-color: rgb(56, 54, 34);
+   box-shadow: rgb(56, 54, 34) 1 1 1 1px inset;
+   background-clip: padding-box;
+}
+
+.THIS {
+  background-color: rgb(244, 237, 132);
+  height: 100%;
+}

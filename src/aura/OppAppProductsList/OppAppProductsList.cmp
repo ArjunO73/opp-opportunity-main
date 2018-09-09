@@ -1,0 +1,164 @@
+<aura:component >
+    
+    <aura:attribute name="Products" type="PricebookEntry[]"/>
+    <aura:attribute name="items" type="OpportunityLineItem[]"></aura:attribute>
+    <aura:attribute name="OppId" type="string"></aura:attribute>
+    <aura:attribute name="SaveMode" type="boolean"></aura:attribute>
+    <aura:attribute name="AddNewMode" type="boolean"></aura:attribute>
+    <aura:attribute name="SearchString" type="string"></aura:attribute>
+    <aura:attribute name="SelectedItemCount" type="string"></aura:attribute>
+    
+    <aura:handler name="change" value="{!v.SearchString}" action="{!c.ApplyFilter}"></aura:handler>
+    <aura:handler name="change" value="{!v.items}" action="{!c.UpdateCount}"></aura:handler>
+    
+    <div class="demo-only" style="height: 640px;">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large slds-list-builder" aria-labelledby="id-of-modalheader-h2" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.CancelAddNew}">
+                        <lightning:icon iconName="utility:close" label="close" variant="inverse" size="small" />
+                        
+                    </button>
+                    <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Add Products</h2>
+                    <p class="slds-m-top_x-small">Pricebook: Salesforce Products</p>
+                </header>
+                <div class="slds-modal__content slds-grid slds-grow" id="modal-content-id-1">
+                    <div class="slds-grid slds-grid_vertical">
+                        <div class="slds-p-vertical_x-small slds-p-horizontal_large slds-shrink-none slds-theme_shade">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label slds-assistive-text" for="combobox-unique-id-2">Search</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container">
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                                <input onkeyup="{!c.ApplyFilter}" value="{!v.SearchString}" type="text" class="slds-input slds-combobox__input" id="combobox-unique-id-2" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Products" />
+                                                <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                                    <lightning:icon iconName="utility:search" size="xx-small"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-pill_container slds-pill_container_bare">
+                                <ul class="slds-listbox slds-listbox_horizontal" role="listbox" aria-label="Selected Options:" aria-orientation="horizontal">
+                                    <aura:iteration items="{!v.items}" var="item">
+                                        <aura:if isTrue="{!item.Id == null}">
+                                            <li class="slds-listbox-item" role="presentation">
+                                                <span class="slds-pill" role="option" tabindex="0" aria-selected="true">
+                                                    <span class="slds-pill__label" title="{!item.PricebookEntry.Product2.Name}">{!item.PricebookEntry.Product2.Name}</span>
+                                                    <div class="slds-icon_container slds-pill__remove" id="{!item.PricebookEntry.Product2.Id}" title="Remove" onclick="{!c.RemoveItem}">
+                                                        <lightning:icon iconName="utility:close" size="x-small"/>
+                                                        <span class="slds-assistive-text">Press delete or backspace to remove</span>
+                                                    </div>
+                                                </span>
+                                            </li>
+                                        </aura:if>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                            <div class="slds-text-title slds-m-top_x-small" aria-live="polite">{!v.SelectedItemCount} Item(s) Selected</div>
+                        </div>
+                        <aura:if isTrue="{!not(v.SaveMode)}">
+                            <div class="">
+                                <table role="grid" class="slds-table slds-table_fixed-layout slds-table_bordered slds-table_resizable-cols slds-no-row-hover slds-scrollable_none">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th scope="col" style="width: 3.75rem;"></th>
+                                            <th aria-label="Name" aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+                                                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                                                    <span class="slds-assistive-text">Sort by: </span>
+                                                    <span class="slds-truncate" title="Name">Name</span>
+                                                    <div class="slds-icon_container">
+                                                        
+                                                        <lightning:icon class="slds-icon-text-default slds-is-sortable__icon" iconName="utility:arrowdown" size="x-small"/>
+                                                        
+                                                    </div>
+                                                </a>
+                                                <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                                                <div class="slds-resizable">
+                                                    <input type="range" min="20" max="1000" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-5" tabindex="-1" />
+                                                    <span class="slds-resizable__handle">
+                                                        <span class="slds-resizable__divider"></span>
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th aria-label="Product Code" aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+                                                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                                                    <span class="slds-assistive-text">Sort by: </span>
+                                                    <span class="slds-truncate" title="Product Code">Product Code</span>
+                                                    <div class="slds-icon_container">
+                                                        <lightning:icon class="slds-icon-text-default slds-is-sortable__icon" iconName="utility:arrowdown" size="x-small"/>
+                                                    </div>
+                                                </a>
+                                                <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                                                <div class="slds-resizable">
+                                                    <input type="range" min="20" max="1000" aria-label="Product Code column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-6" tabindex="-1" />
+                                                    <span class="slds-resizable__handle">
+                                                        <span class="slds-resizable__divider"></span>
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th aria-label="List Price" aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+                                                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                                                    <span class="slds-assistive-text">Sort by: </span>
+                                                    <span class="slds-truncate" title="List Price">List Price</span>
+                                                    <div class="slds-icon_container">
+                                                        <lightning:icon class="slds-icon-text-default slds-is-sortable__icon" iconName="utility:arrowdown" size="x-small"/>
+                                                    </div>
+                                                </a>
+                                                <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                                                <div class="slds-resizable">
+                                                    <input type="range" min="20" max="1000" aria-label="List Price column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-7" tabindex="-1" />
+                                                    <span class="slds-resizable__handle">
+                                                        <span class="slds-resizable__divider"></span>
+                                                    </span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!v.Products}" var="Product">
+                                            <tr class="slds-hint-parent" title="{!Product.Name}" aura:id="ProductRecord">
+                                                <td role="gridcell" tabindex="0" class="slds-text-align_right" style="width: 3.75rem;">
+                                                    <div class="slds-checkbox_add-button">
+                                                        <input type="checkbox" class="slds-assistive-text" aura:id="ProductSelect" id="{!Product.Id}" value="{!Product.Product2.Id}" tabindex="-1" />
+                                                        <label for="{!Product.Id}" onclick="{!c.SelectProduct}" class="slds-checkbox_faux">
+                                                            <span class="slds-assistive-text">Select item 1</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <th scope="row">
+                                                    <div class="slds-truncate" title="{!Product.Name}">{!Product.Name}</div>
+                                                </th>
+                                                <td role="gridcell">
+                                                    <div class="slds-truncate" title="{!Product.ProductCode}">{!Product.ProductCode}</div>
+                                                </td>
+                                                <td role="gridcell">
+                                                    <div class="slds-truncate" title="{!Product.UnitPrice}">{!Product.UnitPrice}</div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.SaveMode}">
+                            <c:OppAppProductCMP items="{!v.items}" SaveMode="{!v.SaveMode}"/>
+                        </aura:if>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.CancelAddNew}">Cancel</button>
+                    <aura:if isTrue="{!not(v.SaveMode)}">
+                        <button class="slds-button slds-button_brand" onclick="{!c.NextStep}">Next</button>
+                    </aura:if>
+                    <aura:if isTrue="{!v.SaveMode}">
+                        <button class="slds-button slds-button_brand" onclick="{!c.SaveChanges}">Save</button>
+                    </aura:if>
+                </footer>
+            </div>
+        </section>
+    </div>
+    
+</aura:component>

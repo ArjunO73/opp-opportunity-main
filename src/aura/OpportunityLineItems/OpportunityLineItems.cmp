@@ -1,0 +1,74 @@
+<!--
+ - Created by cxu on 7/02/2017.
+ -->
+
+<aura:component description="OpportunityLineItems"
+                controller="FastOpportunityController">
+    <aura:attribute name="recordId" type="string"></aura:attribute>
+    <aura:attribute name="items" type="OpportunityLineItem[]"></aura:attribute>
+    <aura:attribute name="entries" type="PricebookEntry[]"></aura:attribute>
+    <aura:attribute name="editMode" type="boolean"></aura:attribute>
+    <aura:attribute name="AddNewMode" type="boolean"></aura:attribute>
+    <aura:attribute name="ShowFastOptyLineItemOverLay" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:RemoveLineItem" action="{!c.handleItemRemoval}"/>
+    <aura:handler name="change" value="{!v.ShowFastOptyLineItemOverLay}" action="{!c.doInit}"/>
+    
+    <aura:registerEvent name="OppAppCloseOverlay" type="c:OppAppCloseOverlay"/>
+    
+    <!--<ol class="slds-list__vertical slds-list__vertical-space">
+        <aura:if isTrue="{!equals(v.items.length, 0)}">
+            <li class="slds-item slds-hint-parent">
+                <div class="slds-filters__item slds-grid slds-grid__vertical-align-center">
+                    <p>No product has been added yet.</p>
+                </div>
+            </li>
+        </aura:if>
+        <aura:iteration items="{!v.items}" var="item">
+            <c:OpportunityLineItem item="{!item}" entries="{!v.entries}" editMode="{!v.editMode}"></c:OpportunityLineItem>
+        </aura:iteration>
+        
+    </ol>-->
+    <center class="slds-p-bottom_x-large">
+        <lightning:button class="slds-col--bump-left" iconName="utility:new" variant="neutral" label="Products" onclick="{!c.addNewItem}"></lightning:button>
+        <lightning:button class="slds-col--bump-left" label="Save Items" onclick="{!c.saveLineItems}" variant="brand"></lightning:button>
+        <lightning:button class="slds-col--bump-left" variant="neutral" label="Cancel" onclick="{!c.disableEditMode}"></lightning:button>
+        
+
+    </center>
+    <!--<ol class="slds-list__vertical slds-list__vertical-space slds-p-bottom_x-small">
+        <li class="slds-item slds-hint-parent" style="position: relative;">
+            <center>
+                <div class="slds-filters__item slds-grid slds-grid__vertical-align-center" onclick="{!c.addNewItem}">
+                    <a href="javascript:void(0);" class="slds-grow slds-has-blur-focus">
+                        <button class="slds-button slds-button__icon slds-button__icon-small" title="Add New Item" >
+                            <lightning:icon iconName="utility:new" class="slds-button__icon slds-button__icon__hint" size="small"></lightning:icon>
+                            <span class="slds-assistive-text">Add New Item</span>
+                        </button>
+                    </a>                    
+                </div>
+            </center>
+        </li>
+    </ol>-->
+    
+    <c:OpportunityLineItem items="{!v.items}" entries="{!v.entries}" editMode="{!v.editMode}"></c:OpportunityLineItem>
+    
+    <aura:if isTrue="{!v.editMode}">
+        <!-- <div class="slds-filters__footer slds-grid slds-shrink-none">
+            <a href="javascript:void(0);" onclick="{!c.addNewItem}">Add New Items</a>
+            <a href="javascript:void(0);" onclick="{!c.removeAllItems}" class="slds-col__bump-left">Remove All Items</a>
+        </div>-->
+        <!--<center class="slds-p-top_x-large">
+            <lightning:button class="slds-colbump-left" label="Save Items" onclick="{!c.saveLineItems}" variant="brand"></lightning:button>
+            <lightning:button class="slds-colbump-left" variant="neutral" label="Cancel" onclick="{!c.disableEditMode}"></lightning:button>
+        </center>-->
+    </aura:if>
+    
+    <aura:if isTrue="{!v.AddNewMode}">
+        <c:OppAppProductsList AddNewMode="{!v.AddNewMode}" items="{!v.items}" OppId="{!v.recordId}" Products="{!v.entries}"/>
+    </aura:if>
+    
+    <lightning:spinner aura:id="mySpinner" class="slds-hide"/>
+    
+</aura:component>

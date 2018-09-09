@@ -1,0 +1,29 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable">  
+    <aura:attribute name="NewOpty" type="String[]" default="['Name','AccountId','CloseDate','StageName']" />
+    <aura:attribute name="ShowNewOpty" type="String" default="Hide" />
+     <!--aura:handler name="init" value="{!this}" action="{!c.init}" /-->
+        <div class="{!'demo-only ' +v.ShowNewOpty}">
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="id-of-modalheader-h2" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick="{!c.CancelEditOpty}" title="Close">
+                     <lightning:icon iconName="utility:close" size="xx-small"/>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">New Opportunity</h2>
+                <!--p class="slds-m-top_x-small">Add any text like Opportunity Name</p-->
+            </header>
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <div class="slds-grid slds-grid_vertical slds-p-around_medium">
+                    
+                    <div class="slds-scrollable">
+                        <c:FastOpportunity/>
+					</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</div>
+    
+</aura:component>

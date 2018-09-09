@@ -1,0 +1,10 @@
+<aura:component >
+    <aura:attribute name="oppCalendarAdmin" type="Admin.AlertSettings"/>
+    <lightning:tab label="Calendar View" id="four">
+        <ui:inputCheckbox aura:id="checkbox-day-list-view" label="Day List View" value="{!v.oppCalendarAdmin.dayListView}"/>
+        <ui:inputCheckbox aura:id="checkbox-day-view" label="Day View" value="{!v.oppCalendarAdmin.dayView}"/>
+        <ui:inputCheckbox aura:id="checkbox-month-view" label="Month View" value="{!v.oppCalendarAdmin.monthView}"/>
+        <ui:inputCheckbox aura:id="checkbox-week-list-view" label="Week List View" value="{!v.oppCalendarAdmin.weekListView}"/>
+        <ui:inputCheckbox aura:id="checkbox-week-view" label="Week View" value="{!v.oppCalendarAdmin.weekView}"/>
+    </lightning:tab>
+</aura:component>

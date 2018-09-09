@@ -1,0 +1,28 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" controller="AdminSetup">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="admin" type="Admin"/>
+    <aura:attribute name="superAdmin" type="String"/>
+    <div class="slds-page-header">
+        <div class="slds-media">
+            <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                    <lightning:icon iconName="custom:custom67" alternativeText="Approved" />
+                </span>
+            </div>
+            <div class="slds-media__body">
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Rohde Corp - 80,000 Widgets">Admin Controls Page</h1>
+                <p class="slds-text-body_small slds-line-height_reset">Dashboard Settings</p>
+            </div>
+            <lightning:button label="Save" title="Change Tile Settings" onclick="{!c.saveSettings}"/>
+        </div>
+    </div>
+    
+    <lightning:tabset variant="vertical" selectedTabId="one">
+        <c:oppAdminSetup adminSettings="{!v.admin}"/>
+        <c:opputunitySettings oppSettings="{!v.admin.opportunitySettings}"/>
+        <c:oppAlertsAdmin oppAlertAdmin="{!v.admin.alertSettings}"/>
+        <c:oppCalendarAdmin oppCalendarAdmin="{!v.admin.calendarSettings}"/>
+        <c:oppContactAdmin oppContactTab="{!v.admin.contactsSettings}"/>
+    </lightning:tabset>
+</aura:component>

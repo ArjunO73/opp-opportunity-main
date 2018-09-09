@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event template">
+	<aura:attribute name="EditOpty" type="Opportunity.Id"/>
+    <aura:attribute name="EditOptyType" type="String"/>
+    <aura:attribute name="EditOptyName" type="Opportunity.Name"/>
+</aura:event>

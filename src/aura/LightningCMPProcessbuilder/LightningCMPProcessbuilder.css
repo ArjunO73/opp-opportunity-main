@@ -1,0 +1,12 @@
+.THIS .StepInactive,.THIS.Hide{
+ display:none;
+}
+.THIS .Step0{
+ display:block;
+}
+.THIS .ShowStep,.THIS.Show{
+    display:block!important;
+}
+.THIS .HideStep{
+    display:none!important;
+}

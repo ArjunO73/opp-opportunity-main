@@ -1,0 +1,117 @@
+<aura:component  implements="flexipage:availableForRecordHome">
+    <aura:attribute name="Opportunity" type="Opportunity"/>
+    <aura:attribute name="OpportunityId" type="Opportunity.Id" default="{!v.Opportunity.Id}"/>
+    <aura:attribute name="status" type="String[]" default="Open, Closed, Closed Won, Any"/>
+    <aura:attribute name="MenuAlignmentindex" type="string"/>
+    <aura:attribute name="MenuPosition" type="string"/>
+    <aura:attribute name="MenuAlignment" type="map" default="{0:'right',1:'right',2:'bottom-right',3:'bottom-right',4:'bottom-right'}"/>
+    <aura:attribute name="adminSettings" type="Admin_Setup__c"/>
+    <aura:attribute name="oppSettings" type="Admin.OpportunitySettings"/>
+    
+    <aura:registerEvent name="EditOpty" type="c:EditOpty"/>
+    <aura:registerEvent name="NewFavoriteOpty" type="c:NewFavoriteOpty"/>
+    <aura:registerEvent name="ShowSyncOptyProcess" type="c:SyncOptyProcessTrigger"/>
+    
+    <aura:handler name="init" action="{!c.alignMenu}" value="{!this}"/>
+    
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+    
+    
+    <tr class="slds-hint-parent"> 
+        <!--td class="slds-cell-shrink">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-text-align_center">
+                        <span class="slds-radio">
+                            <input type="radio" actionType="NewOptyProduct" class="SelectOpty" onclick="{!c.EditOpp}" name="NewOptyProduct" id="{!v.Opportunity.Id}" value="{!v.Opportunity.Id}" />
+                            <label class="slds-radio__label" for="{!v.Opportunity.Id}">
+                                <span class="slds-radio_faux" style="background:transparent"></span>
+                            </label>
+                        </span>                        
+                    </div>
+                </div>
+            </td-->
+        <td class="slds-cell-shrink">
+            <div class="slds-form-element">                
+                <div class="slds-form-element__control slds-text-align_center">
+                    <div class="slds-visual-picker">
+                        <button role="checkbox" value="{!v.Opportunity.FavrtId}" aria-checked="true" onclick="{!c.toggleFavoriteCheckBox}" for="{!'Favorite' + v.Opportunity.Id}" style="{!'display:'+v.Opportunity.IsFavorite}" class="bare not-selected slds-not-selected  slds-is-selected branding-favorites-star-button branding-favorites-border slds-button--icon slds-button--icon-small slds-button--icon-border slds-global-header__button--icon-favorites slds-p-around--xxx-small slds-m-right--none uiButton forceHeaderButton" type="button">
+                            <lightning:icon title="Added as favorite. Click to remove!" iconName="utility:favorite" size="xx-small"/>                                        
+                        </button>
+                        <button role="checkbox" value="{!v.Opportunity.Id}" aria-checked="false" onclick="{!c.toggleFavoriteCheckBox}" for="{!'Favorite' + v.Opportunity.Id}" style="{!'display:'+v.Opportunity.IsNotFavorite}" class="bare not-selected slds-not-selected branding-favorites-star-button branding-favorites-border slds-button--icon slds-button--icon-small slds-button--icon-border slds-global-header__button--icon-favorites slds-p-around--xxx-small slds-m-right--none uiButton forceHeaderButton" >
+                            <lightning:icon title="Click to add as a fav!" class="slds-is-selected" iconName="utility:favorite" size="xx-small"/>
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td scope="row" data-label="Opportunity Name"><div class="slds-truncate" title="{!v.Opportunity.Name}"><a target="_blank" href="{!'/lightning/r/Opportunity/'+v.Opportunity.Id+'/view'}">{!v.Opportunity.Name}</a></div></td>
+        <td scope="row" data-label="Probability"><div class="slds-truncate" title="{!v.Opportunity.Probability}">{!v.Opportunity.Probability}</div></td>
+        <td scope="row" data-label="Account"><div class="slds-truncate" title="{!v.Opportunity.Account.Name}"><a target="_blank" href="{!'/lightning/r/Opportunity/'+v.Opportunity.AccountId+'/view'}">{!v.Opportunity.Account.Name}</a></div></td>
+        <td scope="row" data-label="Stage"><div class="slds-truncate" title="{!v.Opportunity.StageName}">{!v.Opportunity.StageName}</div></td>
+        <td scope="row" data-label="Created Date"><div class="slds-truncate" title="{!v.Opportunity.CreatedDate}">{!v.Opportunity.CreatedDate}</div></td>
+        <!--td class="slds-cell-shrink"><div class="slds-truncate" title="{!'Edit '+v.Opportunity.Name}">
+                <lightning:button value="{!v.Opportunity.Id}" iconName="utility:edit" 
+                                  iconPosition="left"
+                                  onclick="{!c.EditOpp}"
+                                  />
+                <lightning:icon value="{!v.Opportunity.Id}" iconName="utility:edit" iconPosition="left" variant="destructive" size="xx-small" onclick="{!c.EditOpp}"/>
+                </div>
+            </td-->
+        <aura:if isTrue="{!v.oppSettings.optyRecordInlineMenu}">
+            <td scope="row" data-label="More Options">
+                
+                
+                <lightning:buttonMenu menuAlignment="{!v.MenuPosition}" variant="container" class="slds-media slds-media_center slds-m-right_xx-small" iconName="utility:down" alternativeText="Settings" onselect="{! c.handleMenuSelect }">
+                    <lightning:menuItem label="Add Product" value="AddProduct" iconName="action:new"/>
+                    <aura:if isTrue="{!v.oppSettings.addNewTask}">    
+                        <lightning:menuItem label="Add Activity" value="AddActivity" iconName="action:new_task"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.oppSettings.optyRecordSync}">    
+                        <lightning:menuItem label="Sync" value="SyncOpty" iconName="action:upload"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.oppSettings.optyRecordQuickEdit}">   
+                        <lightning:menuItem label="Edit" value="EditOpty" iconName="action:edit"/>
+                    </aura:if>
+                    <!--<lightning:menuItem label="Add Product" value="AddProductsOOB" iconName="action:new"/>-->
+                </lightning:buttonMenu>
+                
+                <!--<div aura:id="inlineMenuContainer" class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                <button onclick="{!c.handleMenuSelectbutton}" class="slds-button slds-button_icon slds-button_icon-border-filled" aria-haspopup="true" title="Show More">
+                    <lightning:icon value="{!v.Opportunity.Id}" iconName="utility:down" size="xx-small"/>
+                    <span class="slds-assistive-text">Show More</span>
+                </button>
+                <div class="slds-dropdown slds-dropdown_right slds-dropdown_small">
+                    <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                        <li class="slds-dropdown__item" role="presentation">
+                            <a href="javascript:void(0);" role="menuitem" tabindex="0">
+                                <span class="slds-truncate" title="Menu Item One">
+                                    <lightning:icon value="{!v.Opportunity.Id}" iconName="standard:product" size="x-small"/>   Product</span>
+                            </a>
+                        </li>
+                        <li class="slds-dropdown__item" role="presentation">
+                            <a href="javascript:void(0);" role="menuitem" tabindex="-1">
+                                <span class="slds-truncate" title="Menu Item Two">
+                                    <lightning:icon value="{!v.Opportunity.Id}" iconName="standard:task" iconPosition="left" variant="destructive" size="x-small"/>   Task</span>
+                            </a>
+                        </li>
+                        <li class="slds-dropdown__item" role="presentation">
+                            <a href="javascript:void(0);" role="menuitem" tabindex="-1">
+                                <span class="slds-truncate" title="Menu Item Three">
+                                    <lightning:icon value="{!v.Opportunity.Id}" iconName="standard:link" iconPosition="left" variant="destructive" size="x-small"/>   Sync</span>
+                            </a>
+                        </li>
+                        <li class="slds-dropdown__item" role="presentation">
+                            <a href="javascript:void(0);" role="menuitem" tabindex="-1">
+                                <span class="slds-truncate" title="Menu Item Three">
+                                    <lightning:icon value="{!v.Opportunity.Id}" iconName="standard:opportunity" iconPosition="left" variant="destructive" size="x-small"/>   Edit</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>-->
+                
+            </td>
+        </aura:if>
+    </tr>
+</aura:component>

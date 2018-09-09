@@ -1,0 +1,250 @@
+<!--c:eventsContainer-->
+<aura:component controller="FillRelatedTasks">
+    <aura:attribute name="obj" type="List"  />
+    <aura:attribute name="objclosedate" type="List"  />
+    <aura:attribute name="objnotes" type="List"  />
+    <aura:attribute name="isSVisible" type="Boolean" default="true" />
+    <aura:attribute name="isNVisible" type="Boolean" default="true" />
+    <aura:attribute name="isCVisible" type="Boolean" default="true" />
+    <!--<aura:handler event="c:appEvent" action="{!c.handleApplicationEventFire}"/>-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div class="slds-card">
+        <div class="slds-page-header">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-utility-announcement" title="Description of icon when needed">
+                        <lightning:icon iconName="standard:announcement"/>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <!--<p class="slds-text-body_small slds-line-height_reset">Alerts</p>-->
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="{!v.filterlabel}">Alerts</h1>
+                </div>
+                <span style="float:right">
+                    <lightning:buttonMenu  menuAlignment="right" class="slds-media slds-media_center slds-m-right_xx-small" iconName="utility:settings" alternativeText="Show menu" onselect="{!c.handleSelect}">             
+                        <lightning:menuItem aura:id="menu" value="isSVisible" label="Sales" checked="true"/>
+                        <lightning:menuItem aura:id="menu" value="isNVisible" label="Notes" checked="true"/>
+                        <lightning:menuItem aura:id="menu" value="isCVisible" label="Close Date" checked="true"/>
+                    </lightning:buttonMenu>
+                </span>
+            </div>
+        </div>
+        <lightning:accordion aura:id="accordion" >
+        <aura:if isTrue="{! v.isSVisible}"> 
+            
+                <lightning:accordionSection name="Sales" label="{!' Sales '}">
+                    <aura:set attribute="actions">
+                        <p class="slds-text-heading_small">{!v.obj.length } &#8194; </p>
+                        <lightning:buttonMenu aura:id="menu" alternativeText="Show menu" iconSize="x-small">
+                            <lightning:menuItem value="New" label="Menu Item One" />
+                            <lightning:menuItem value="Edit" label="Menu Item Two" />
+                        </lightning:buttonMenu>
+                    </aura:set>
+                    <aura:set attribute="body">
+                        <aura:iteration items="{!v.obj}" var="obg">
+                  <p class=" slds-truncate"  title="{!'Opportunity: '+obg.Name+' was created on '+obg.CreatedDate ? 'Opportunity: '+obg.Name+' was created on '+obg.CreatedDate : 'Opportunity: '+obg.Name+' was created on '+obg}"><img src='{!obg.photourl}' /> &#x2002;  <a href="{!'/lightning/r/User/'+obg.userid+'/view'}">{!obg.username}</a> added to Opportunity <a href="{!'/lightning/r/Opportunity/'+obg.Id+'/view'}">{!obg.Name}</a> on {!obg.CreatedDate ? obg.CreatedDate : obg}</p>
+                           <!--<p class="slds-truncate" title="{!'Opportunity: '+obg.Name+' was created on '+obg.CreatedDate ? 'Opportunity: '+obg.Name+' was created on '+obg.CreatedDate : 'Opportunity: '+obg.Name+' was created on '+obg}">Opportunity: <a href="{!'/lightning/r/Opportunity/'+obg.Id+'/view'}">{!obg.Name}</a> was created on {!obg.CreatedDate ? obg.CreatedDate : obg}</p>-->
+                            
+                        </aura:iteration>
+                        <aura:if isTrue="{!v.obj}">
+                           <aura:set attribute="else">
+                             <p>No Opportunity Events to track</p>
+                        </aura:set>
+                        </aura:if>
+                        
+                    </aura:set>
+                </lightning:accordionSection>
+
+                
+            
+           <!--<div class="slds-accordion__list-item" >
+                <section class="slds-accordion__section slds-p-around_x-small">
+                    <div class="slds-accordion__summary slds-box_small slds-card" style="cursor: pointer;background:#e8e8e8;" onclick="{!c.sectionOne}">
+                        <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                            <button class="slds-button slds-button_reset slds-accordion__summary-action" aria-expanded="true" type="button">
+                                <span class="slds-truncate" title="Sales">Sales</span>
+                            </button>
+                            
+                        </h3>
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-list_horizontal" >
+                            <span style=" background: #fff;padding: 6px;border-radius: 5px 6px 5px 5px">{!v.obj.length}</span>
+                            <lightning:icon class="slds-show AccordionIndicator" aura:id="articleOne" variant="inverse" iconName="utility:right" size="xx-small" alternativeText="Indicates add"/>
+                            <lightning:icon class="slds-hide AccordionIndicator" aura:id="articleOne" variant="inverse" iconName="utility:down" size="xx-small" alternativeText="Indicates dash"/>
+                        </div>
+                    </div>
+                   <div class="slds-hide slds-accordion__content slds-p-aroundmedium" aura:id="articleOne">
+                         <aura:iteration items="{!v.obj}" var="obg">
+                            <p>Opp created on {!obg.CreatedDate ? obg.CreatedDate : obg}</p>
+                        </aura:iteration>
+                        <aura:if isTrue="{!v.obj}">
+                            <p>No Opportunity Events to track</p>
+                        </aura:if>
+                    </div>
+                </section>
+            </div>-->
+            
+        </aura:if>
+        <aura:if isTrue="{! v.isNVisible }">
+            <lightning:accordionSection name="Notes" label="{!'Notes '}">
+                <aura:set attribute="actions">
+                    <p class="slds-text-heading_small">{!v.objnotes.length } &#8194; </p>
+                    <lightning:buttonMenu aura:id="menu" alternativeText="Show menu" iconSize="x-small">
+                        <lightning:menuItem value="New" label="Menu Item One" />
+                        <lightning:menuItem value="Edit" label="Menu Item Two" />
+                    </lightning:buttonMenu>
+                </aura:set>
+                <aura:set attribute="body">
+                    <aura:iteration items="{!v.objnotes}" var="obg">
+                        <p>Notes created on {!obg.CreatedDate} by {!obg.Id}</p>
+                    </aura:iteration>
+                    <aura:if isTrue="{!v.objnotes}">
+                        <aura:set attribute="else">
+                             <p>No Opportunity Events to track</p>
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </lightning:accordionSection>
+            <!--<div class="slds-accordion__list-item" >
+                <section class="slds-accordion__section slds-p-around_x-small">
+                    <div class="slds-accordion__summary slds-box_small slds-card" style="cursor: pointer;background:#e8e8e8;" onclick="{!c.sectionTwo}">
+                        <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                            <button class="slds-button slds-button_reset slds-accordion__summary-action" aria-expanded="true" type="button">
+                                <span class="slds-truncate" title="Notes">Notes</span>
+                            </button>
+                            
+                        </h3>
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-list_horizontal" >
+                            <span style="background: #fff;padding: 6px;border-radius: 5px 6px 5px 5px">{!v.objnotes.length}</span>
+                            <lightning:icon class="slds-show AccordionIndicator" aura:id="articleTwo" variant="inverse" iconName="utility:right" size="xx-small" alternativeText="Indicates add"/>
+                            <lightning:icon class="slds-hide AccordionIndicator" aura:id="articleTwo" variant="inverse" iconName="utility:down" size="xx-small" alternativeText="Indicates dash"/>
+                        </div>
+                    </div>
+                    <div class="slds-hide slds-accordion__content slds-p-aroundmedium" aura:id="articleTwo">
+                        <aura:iteration items="{!v.objnotes}" var="obg">
+                            <p>Notes created on {!obg.CreatedDate} by {!obg.Id}</p>
+                        </aura:iteration>
+                        <aura:if isTrue="{!v.objnotes}">
+                            <p>No Opportunity Events to track</p>
+                        </aura:if>
+                    </div>
+                </section>
+            </div>-->
+        </aura:if>
+        <aura:if isTrue="{! v.isCVisible }">
+            <lightning:accordionSection name="CloseDate" label="{!'Close Date '}">
+                <aura:set attribute="actions">
+                    <p class="slds-text-heading_small">{!v.objclosedate.length } &#8194; </p>
+                    <lightning:buttonMenu aura:id="menu" alternativeText="Show menu" iconSize="x-small">
+                        <lightning:menuItem value="New" label="Menu Item One" />
+                        <lightning:menuItem value="Edit" label="Menu Item Two" />
+                    </lightning:buttonMenu>
+                </aura:set>
+                <aura:set attribute="body">
+                    <aura:iteration items="{!v.objclosedate}" var="obg">
+                        <p>Opportunity <a href="{!'/lightning/r/Opportunity/'+obg.Id+'/view'}">{!obg.Name}</a>nearing close date - {!obg.CloseDate}</p>
+                    </aura:iteration>
+                    <aura:if isTrue="{!v.objclosedate}">
+                        <aura:set attribute="else">
+                             <p>No Opportunity Events to track</p>
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </lightning:accordionSection>
+            <!--<div class="slds-accordion__list-item" >
+                <section class="slds-accordion__section slds-p-around_x-small">
+                    <div class="slds-accordion__summary slds-box_small slds-card" style="cursor: pointer;background:#e8e8e8;" onclick="{!c.sectionThree}">
+                        <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                            <button class="slds-button slds-button_reset slds-accordion__summary-action" aria-expanded="true" type="button">
+                                <span class="slds-truncate" title="Close Date">Close Date</span>
+                            </button>
+                        </h3>
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-list_horizontal" >
+                            <span style=" background: #fff;padding: 6px;border-radius: 5px 6px 5px 5px">{!v.objclosedate.length}</span>
+                            <lightning:icon class="slds-show AccordionIndicator" aura:id="articleThree" variant="inverse" iconName="utility:right" size="xx-small" alternativeText="Indicates add"/>
+                            <lightning:icon class="slds-hide AccordionIndicator" aura:id="articleThree" variant="inverse" iconName="utility:down" size="xx-small" alternativeText="Indicates dash"/>
+                        </div>
+                    </div>
+                    <div class="slds-hide slds-accordion__content slds-p-aroundmedium" aura:id="articleThree">
+                        <aura:iteration items="{!v.objclosedate}" var="obg">
+                            <p>Opp {!obg.Name}'s close date is {!obg.CloseDate}</p>
+                        </aura:iteration>
+                        <aura:if isTrue="{!v.objclosedate}">
+                            <p>No Opportunity Events to track</p>
+                        </aura:if>
+                    </div>
+                </section>
+            </div>-->
+        </aura:if>
+        </lightning:accordion>
+        
+        <!--<ul class="slds-accordion">
+    <aura:if isTrue="{! v.isSVisible }">
+    <li class="slds-accordion__list-item">
+      <section class="slds-accordion__section slds-is-open">
+        <div class="slds-accordion__summary">
+          <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+            <div aria-controls="accordion-details-01" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action" onclick="{!c.sectionOne}">
+                <div class="slds-truncate" title="Sales">Sales</div>
+                <div class="slds-float_right" >
+                    <span style=" background: #fff;padding: 3px;border-radius: 5px 6px 5px 5px">{!v.obj.length}</span>
+                    <lightning:icon iconName="utility:switch" size="x-small" class="slds-accordion__summary-action-icon" aria-hidden="true"/>
+                </div>
+              </div>
+          </h3>
+        </div>
+        <div aria-hidden="false" class="slds-accordion__content" id="accordion-details-01">
+            <aura:iteration items="{!v.obj}" var="obg">
+                <p>Opp created on {!obg.CreatedDate ? obg.CreatedDate : obg}</p>
+            </aura:iteration>
+        </div>
+      </section>
+    </li>
+    </aura:if>
+    <aura:if isTrue="{! v.isNVisible }">
+    <li class="slds-accordion__list-item">
+      <section class="slds-accordion__section">
+        <div class="slds-accordion__summary">
+          <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+            <div aria-controls="accordion-details-02" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action" onclick="{!c.sectionTwo}">
+              <div class="slds-truncate" title="Notes">Notes</div>
+                <div class="slds-float_right" >
+                    <span style=" background: #fff;padding: 3px;border-radius: 5px 6px 5px 5px">{!v.objnotes.length}</span>
+                    <lightning:icon iconName="utility:switch" size="x-small" class="slds-accordion__summary-action-icon" aria-hidden="true"/>
+                </div>
+              </div>
+          </h3>
+        </div>
+        <div aria-hidden="true" class="slds-accordion__content" id="accordion-details-02"><aura:iteration items="{!v.objnotes}" var="obg">
+            <p>Notes created on {!obg.CreatedDate} by {!obg.Id}</p>
+            </aura:iteration>
+        </div>
+      </section>
+    </li>
+    </aura:if>
+    <aura:if isTrue="{! v.isCVisible }">
+    <li class="slds-accordion__list-item">
+      <section class="slds-accordion__section">
+        <div class="slds-accordion__summary">
+          <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+            <div aria-controls="accordion-details-01" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action" onclick="{!c.sectionThree}">
+                <div class="slds-truncate" title="Close Date">Close Date</div>
+                <div class="slds-float_right" >
+                    <span style=" background: #fff;padding: 3px;border-radius: 5px 6px 5px 5px">{!v.objclosedate.length}</span>
+                    <lightning:icon iconName="utility:switch" size="x-small" class="slds-accordion__summary-action-icon" aria-hidden="true"/>
+                </div>
+              </div>
+          </h3>
+        </div>
+        <div aria-hidden="true" class="slds-accordion__content" id="accordion-details-03">
+         <aura:iteration items="{!v.objclosedate}" var="obg">
+                <p>Opp {!obg.Name}'s close date is {!obg.CloseDate}</p>
+            </aura:iteration>
+        </div>
+      </section>
+    </li>
+    </aura:if>
+  </ul>-->
+    </div>
+    
+</aura:component>

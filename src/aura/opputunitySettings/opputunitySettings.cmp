@@ -1,0 +1,53 @@
+<aura:component >
+    <aura:attribute name="oppSettings" type="Admin.OpportunitySettings"/>
+    <lightning:tab label="Opty List View" id="two">
+        <div class="slds-form" role="list">
+            <div class="slds-grid slds-gutters_small">
+                <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <ui:inputCheckbox label="Opty List Search" value="{!v.oppSettings.optyListSearch}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <ui:inputCheckbox label="Opty Record Inline Menu" value="{!v.oppSettings.optyRecordInlineMenu}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters_small">
+                <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <ui:inputCheckbox label="Opty Record Quick Edit" value="{!v.oppSettings.optyRecordQuickEdit}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <ui:inputCheckbox label="Opty Record Sync" value="{!v.oppSettings.optyRecordSync}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters_small">
+                <div class="slds-col slds-has-flexi-truncate" role="listitem">                        
+                    <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <ui:inputCheckbox label="Add New Task" value="{!v.oppSettings.addNewTask}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                        <ui:inputText label="Number of records displayed" class="field" value="{!v.oppSettings.noOfRecordsDisplayed}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning:tab>
+</aura:component>

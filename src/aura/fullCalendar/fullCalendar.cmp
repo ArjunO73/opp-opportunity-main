@@ -1,0 +1,104 @@
+<aura:component controller="fullCalendarServerController" implements="flexipage:availableForAllPageTypes">
+    <!-- LIBRARIES -->
+    <ltng:require styles="{!$Resource.fullCalendar + '/node_modules/fullcalendar/dist/fullcalendar.min.css'}"
+        scripts="{!join(',',
+            $Resource.fullCalendar + '/node_modules/jquery/dist/jquery.min.js',
+            $Resource.fullCalendar + '/node_modules/moment/min/moment.min.js',
+            $Resource.fullCalendar + '/node_modules/jquery-ui-dist/jquery-ui.min.js',
+            $Resource.fullCalendar + '/node_modules/fullcalendar/dist/fullcalendar.min.js')}"
+        afterScriptsLoaded="{!c.jsLoaded}"/>
+
+    <!-- ATTRIBUTES -->
+    <!-- <aura:attribute name="calendarId" type="String" description="HTML Id of calendar. Used by external components to reference the calendar." default="calendar"/> -->
+    <aura:attribute type="String" name="headerDate"/>
+    <aura:attribute type="String" name="view" default="month"/>
+    <aura:attribute type="String" name="dayClick" default=""/>
+    <aura:attribute name="events" type="Event[]" description="A list of events to display on the calendar"/>
+    <aura:attribute name="messageFromEvent" type="String"/>
+    <aura:attribute name="numEvents" type="Integer" default="0"/>
+    <aura:attribute name="location" type="String"/>
+	<aura:attribute name="latitude" type="String"/>
+    <aura:attribute name="longitude" type="String"/>
+    <aura:attribute name="showMaps" type="boolean" default="false"/>
+    <aura:attribute name="mapOptions" type="Object" default='{"zoom": 2}' />
+    <aura:attribute name="mapOptionsCenter" type="Object" /> 
+	
+    <!-- EVENTS -->
+	<aura:registerEvent name="appEvent" type="c:CalendarLoadEvent"/>     
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.events}" action="{!c.loadEvents}"/>
+    <aura:handler event="force:showToast" action="{!c.toastInfo}" />
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
+<!--    <aura:method name="calendarCustomEvents" action="{!c.calendarCustomEvents}"/> -->
+
+    <!-- BODY -->
+ <div class="slds-card fullCalendarComp">
+ <div class="slds-page-header">
+  <div class="slds-grid">
+    <div class="slds-col slds-size_9-of-12 slds-has-flexi-truncate">
+      <div class="slds-media slds-no-space slds-grow">
+        <div class="slds-media__figure">
+          <span class="slds-icon_container slds-icon-standard-opportunity" title="Appointments">
+             <lightning:icon iconName="standard:event"/>
+          </span>
+        </div>
+        <div class="slds-media__body">
+          <nav>
+            <ol class="slds-breadcrumb slds-line-height_reset">
+              <li class="slds-breadcrumb__item">
+                <span>Appointments</span>
+              </li>
+            </ol>
+          </nav>
+          <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="Appointments">
+		  My Appointments
+		  </h1>
+        </div>
+      </div>
+    </div>
+	<div class="slds-col slds-size_3-of-12">
+                <lightning:buttonGroup class="event-buttons">
+                    <lightning:button onclick="{!c.createNewEvent}" variant="brand" iconName="action:new_event" title="New Event" class="slds-button slds-button_neutral"/>
+                    <lightning:buttonMenu menuAlignment="right" class="slds-media slds-media_center slds-m-right_xx-small" iconName="utility:settings" alternativeText="Settings" onselect="{! c.handleMenuSelect }">
+                      <lightning:menuItem class="{! v.view == 'month' ? 'slds-button--brand' : ''}" label="Month" value="month" />
+                      <lightning:menuItem class="{! v.view == 'basicWeek' ? 'slds-button--brand' : ''}" label="Week" value="basicWeek"/>
+                      <lightning:menuItem class="{! v.view == 'listWeek' ? 'slds-button--brand' : ''}" label="List Week" value="listWeek"/>
+                      <lightning:menuItem class="{! v.view == 'basicDay' ? 'slds-button--brand' : ''}" label="Day" value="basicDay"/>
+                      <lightning:menuItem class="{! v.view == 'listDay' ? 'slds-button--brand' : ''}" label="List Day" value="listDay"/>
+                    </lightning:buttonMenu>
+                </lightning:buttonGroup>
+	</div>
+  </div>
+     </div>
+     <div class="slds slds-box">
+      <div class="slds-grid slds-wrap">
+        <div class="
+                slds-col
+                slds-order--3 slds-medium-order--1
+                slds-size--1-of-1 slds-medium-size--1-of-3
+                slds-p-bottom--small">
+          <lightning:buttonGroup class="">
+            <lightning:button iconName="utility:chevronleft" onclick="{!c.prev}"/>
+            <lightning:button iconName="utility:chevronright" onclick="{!c.next}"/>
+            <lightning:button label="Today" onclick="{!c.today}"/>
+          </lightning:buttonGroup>
+        </div>
+        <div class="
+                slds-col
+                slds-order--2 slds-medium-order--2
+                slds-p-bottom--small">
+          <ui:outputText class= "slds-float_right" value="{!v.headerDate}"/>
+        </div>
+      </div>
+          <div id="calendar"/>
+        <aura:if isTrue="{!v.showMaps}">
+            <div id='googleMaps' class="slds-is-absolute">
+            	<c:GoogleMap aura:id="gMaps" mapOptions="{!v.mapOptions}" mapOptionsCenter="{!v.mapOptionsCenter}" mapData="{!v.mapData}" location="{!v.location}" showMaps="{!v.showMaps}"/>
+            </div>
+        </aura:if>
+    </div>
+
+    </div>
+    <!-- /BODY -->
+<lightning:overlayLibrary aura:id="overlayLib"/>
+</aura:component>

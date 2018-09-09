@@ -1,0 +1,18 @@
+<aura:component >
+    <ltng:require scripts="{!join(',',
+                           $Resource.fullCalendar + '/node_modules/jquery/dist/jquery.min.js',
+                           $Resource.fullCalendar + '/node_modules/jquery-ui-dist/jquery-ui.min.js')}" />
+    
+    <aura:attribute name="item" type="Contact"/>
+    <!--<aura:handler name="init" value="{!this}" action="{!c.myAction}" />-->
+    <!--<aura:handler name="render" value="{!this}" action="{!c.onrender}"/>-->
+    <!--<aura:handler name="afterRender" value="{!this}" action="{!c.afterRender}"/>-->
+    <div class="row1" id="{!v.item.Id}" data-drag-id="{!index}" >
+        <lightning:card iconName="standard:contact" title="{! 'Contact List for ' + v.item.Name}">
+            <ul class="slds-list--vertical">
+                <li class="slds-list__item">{!v.item.Name}</li>
+                <li class="slds-list__item">{!v.item.Phone}</li>
+            </ul>
+        </lightning:card>
+    </div>
+</aura:component>

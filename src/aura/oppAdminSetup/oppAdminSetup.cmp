@@ -1,0 +1,9 @@
+<aura:component >
+	<aura:attribute name="adminSettings" type="Admin"/>
+    <lightning:tab label="Calendar View" id="one">
+        <ui:inputCheckbox label="Alert View" value="{!v.adminSettings.alertsView}"/>
+        <ui:inputCheckbox label="Calendar View" value="{!v.adminSettings.calendarView}"/>
+        <ui:inputCheckbox label="Contact View" value="{!v.adminSettings.contactView}"/>
+        <ui:inputCheckbox label="Opportunity List View" value="{!v.adminSettings.listView}"/>
+    </lightning:tab>
+</aura:component>

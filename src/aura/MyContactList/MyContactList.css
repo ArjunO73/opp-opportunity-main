@@ -1,0 +1,58 @@
+.THIS {
+    box-shadow: 1px 1px 1px 1px #808080;
+}
+
+.THIS .slds-carousel__panel-action{
+    border: 0;
+}
+
+.THIS .contact-avatar, .THIS .slds-carousel{
+    display: block;
+}
+
+.THIS .leftBtn{
+    float: left;
+    height: 70px;
+    padding-right: .5rem;
+}
+
+.THIS .rightBtn{
+    height: 70px;
+    padding-left: .5rem;
+    float: right;
+}
+
+.THIS .leftBtn .slds-button, .THIS .rightBtn .slds-button{
+	font-size: 15px;
+    top: 50%;
+    background: transparent;
+    border: 0;
+}
+
+/*.THIS .slds-media{
+    display: block;
+}*/
+
+.THIS .slds-carousel__content{
+    padding: 1.5rem;
+    height: auto;
+}
+
+.THIS.carousel-container{
+    /*background: #ffffff;*/
+}
+
+.THIS .slds-page-header_vertical
+{
+    background: rgb(149, 180, 212);
+}
+
+.THIS .uiInput--select.select:not([multiple]){
+    height: auto;
+   	padding: 1px;
+    line-height: inherit;
+}
+
+.THIS .slds-select[size]{
+    min-height: 1.5rem;
+}

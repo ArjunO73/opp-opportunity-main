@@ -1,0 +1,337 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes"  controller="AdminSettingController" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="profilelist" type="Profile[]"/>
+    <aura:attribute name="adminSettings" type="Admin_Setup__c"/>
+    <aura:attribute name="alertsTab" type="Alerts__c"/>
+    <aura:attribute name="calendarViewTab" type="Calendar_View__c"/>
+    <aura:attribute name="contactsTab" type="Alerts__c"/>
+    <aura:attribute name="SettingsDisplay" type="string"/>
+    
+    <div class="slds-page-header">
+        <div class="slds-media">
+            <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                    <lightning:icon iconName="custom:custom67" alternativeText="Approved" />
+                </span>
+            </div>
+            <div class="slds-media__body">
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Rohde Corp - 80,000 Widgets">Admin Controls Page</h1>
+                <p class="slds-text-body_small slds-line-height_reset">Dashboard Settings</p>
+            </div>
+        </div>
+    </div>
+    
+    <lightning:tabset variant="vertical" selectedTabId="one">
+        <lightning:tab label="App Level Settings" id="one">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                </div>
+                <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                    <lightning:button label="Change Settings" title="Change Tile Settings" onclick="{!c.saveSettings}"/>
+                    <lightning:button label="Reset to Default" title="Reset Tile Settings to default" onclick="{!c.cancel}"/>
+                </div>
+            </div>
+            <div class="slds-form slds-form_horizontal">
+                <div class="slds-form-element">
+                    <legend class="slds-form-element__legend slds-form-element__label">Select a Profile</legend>
+                    <div class="slds-form-element__control">
+                        
+                        <div class="slds-select_container" style="width:30%;">
+                            <ui:inputSelect class="single slds-select" aura:id="InputSelectSingle" change="{!c.loadAdminSettings}">
+                                <aura:iteration items="{!v.profilelist}" var="prof">
+                                    <ui:inputSelectOption label="{!prof.Name}" text="{!prof.Id}" value="{!prof.selected}"/>
+                                </aura:iteration>
+                            </ui:inputSelect>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div aura:id="SettingsDisplay" class="toggleDisplay">
+                <ol  class="slds-setup-assistant" >
+                    <li class="slds-setup-assistant__item">
+                        <article class="slds-setup-assistant__step">
+                            <div class="slds-setup-assistant__step-summary">
+                                <div class="slds-media">
+                                    <div class="slds-setup-assistant__step-summary-content slds-media__body">
+                                        <h3 class="slds-setup-assistant__step-summary-title slds-text-heading_small">List View Tile</h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>
+                                    <div class="slds-media__figure slds-media__figure_reverse">
+                                        <div class="slds-form-element">
+                                            <label class="slds-checkbox_toggle slds-grid">
+                                                
+                                                <input type="checkbox" aura:id="checkbox-listview" name="checkbox-listview" checked="{!v.adminSettings.List_View__c}" id="checkbox-listview" />
+                                                <span id="checkbox-listview" class="slds-checkbox_faux_container" aria-live="assertive">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                                
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="slds-setup-assistant__item">
+                        <article class="slds-setup-assistant__step">
+                            <div class="slds-setup-assistant__step-summary">
+                                <div class="slds-media">
+                                    <div class="slds-setup-assistant__step-summary-content slds-media__body">
+                                        <h3 class="slds-setup-assistant__step-summary-title slds-text-heading_small">Alerts Tile</h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>
+                                    <div class="slds-media__figure slds-media__figure_reverse">
+                                        <div class="slds-form-element">
+                                            <label class="slds-checkbox_toggle slds-grid">
+                                                
+                                                <input type="checkbox" aura:id="checkbox-alerts" name="checkbox-alerts" checked="{!v.adminSettings.Alerts__c}" id="checkbox-alerts" />
+                                                <span id="checkbox-alerts" class="slds-checkbox_faux_container" aria-live="assertive">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                                
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="slds-setup-assistant__item">
+                        <article class="slds-setup-assistant__step">
+                            <div class="slds-setup-assistant__step-summary">
+                                <div class="slds-media">
+                                    <div class="slds-setup-assistant__step-summary-content slds-media__body">
+                                        <h3 class="slds-setup-assistant__step-summary-title slds-text-heading_small">Calendar</h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>
+                                    <div class="slds-media__figure slds-media__figure_reverse">
+                                        <div class="slds-form-element">
+                                            <label class="slds-checkbox_toggle slds-grid">
+                                                
+                                                <input type="checkbox" aura:id="checkbox-calendar" name="checkbox-calendar" checked="{!v.adminSettings.Calendar__c}" id="checkbox-calendar" />
+                                                <span id="checkbox-calendar" class="slds-checkbox_faux_container" aria-live="assertive">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                                
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="slds-setup-assistant__item">
+                        <article class="slds-setup-assistant__step">
+                            <div class="slds-setup-assistant__step-summary">
+                                <div class="slds-media">
+                                    <div class="slds-setup-assistant__step-summary-content slds-media__body">
+                                        <h3 class="slds-setup-assistant__step-summary-title slds-text-heading_small">Contacts Tile</h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>
+                                    <div class="slds-media__figure slds-media__figure_reverse">
+                                        <div class="slds-form-element">
+                                            <label class="slds-checkbox_toggle slds-grid">
+                                                
+                                                <input type="checkbox" aura:id="checkbox-contacts" name="checkbox-contacts" checked="{!v.adminSettings.Contacts__c}" id="checkbox-contacts" />
+                                                <span id="checkbox-contacts" class="slds-checkbox_faux_container" aria-live="assertive">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                                
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                </ol>
+            </div>
+        </lightning:tab>
+        <lightning:tab label="Opty List View" id="two">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                </div>
+                <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                    <lightning:button label="Change Settings" title="Change Opty List Settings" onclick="{!c.saveSettings}"/>
+                    <lightning:button label="Reset to Default" title="Reset Opty List Settings to Default" onclick="{!c.ResetToDefault}"/>
+                </div>
+            </div>
+            <div class="slds-form" role="list">
+                <div class="slds-grid slds-gutters_small">
+                    <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                        <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                            <div class="slds-form-element__control">
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" aura:id="checkbox-OptyListSearch" name="checkbox-OptyListSearch" id="checkbox-OptyListSearch" checked="{!v.adminSettings.OptySearch__c}" />
+                                    <label class="slds-checkbox__label" for="checkbox-OptyListSearch">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">Opty List Search</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                        <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                            <div class="slds-form-element__control">
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" aura:id="checkbox-InlineMenu" name="checkbox-InlineMenu" id="checkbox-InlineMenu" checked="{!v.adminSettings.Opty_Record_Inline_Menu__c}" />
+                                    <label class="slds-checkbox__label" for="checkbox-InlineMenu">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">Opty Record Inline Menu</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small">
+                    <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                        
+                        <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                            <div class="slds-form-element__control">
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" aura:id="checkbox-EditOpty" name="checkbox-EditOpty" id="checkbox-EditOpty" checked="{!v.adminSettings.Opty_Quick_Edit__c}" />
+                                    <label class="slds-checkbox__label" for="checkbox-EditOpty">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">Opty Record Quick Edit</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                        <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                            <div class="slds-form-element__control">
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" aura:id="checkbox-SyncOpty" name="checkbox-SyncOpty" id="checkbox-SyncOpty" checked="{!v.adminSettings.Opty_Sync__c}" />
+                                    <label class="slds-checkbox__label" for="checkbox-SyncOpty">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">Opty Record Sync</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small">
+                    <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                        
+                        <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                            <div class="slds-form-element__control">
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" aura:id="checkbox-NewTask" name="checkbox-NewTask" id="checkbox-NewTask" checked="{!v.adminSettings.New_Opty_Task__c}" />
+                                    <label class="slds-checkbox__label" for="checkbox-NewTask">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">Add New Task</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-has-flexi-truncate" role="listitem">
+                        <div class="slds-form-element slds-form-element_edit slds-hint-parent">
+                            <label class="slds-form-element__label" for="text-RecordCountDisplayed">Number of records displayed</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__control" style="width:40%;">
+                                    <input type="text" aura:id="text-RecordCountDisplayed" id="text-RecordCountDisplayed" class="slds-input" value="{!v.adminSettings.Opty_Record_count__c}" placeholder="Enter number of records displayed" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <!-- <div class="slds-form slds-form_horizontal" >
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">Text Input</label>
+                    <div class="slds-form-element__control">
+                        <input style="width:50%;" type="text" id="input-id-01" class="slds-input" placeholder="Placeholder Text" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-02">Textarea Label</label>
+                    <div class="slds-form-element__control">
+                        <textarea style="width:50%;" id="input-id-02" class="slds-textarea" placeholder="Placeholder Text"></textarea>
+                    </div>
+                </div>
+                <fieldset class="slds-form-element">
+                    <legend class="slds-form-element__legend slds-form-element__label">Checkbox Group label</legend>
+                    <div class="slds-form-element__control">
+                        <span class="slds-checkbox">
+                            <input type="checkbox" name="default" id="checkbox-19" value="checkbox-19" />
+                            <label class="slds-checkbox__label" for="checkbox-19">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-form-element__label">All opportunities owned by you</span>
+                            </label>
+                        </span>
+                        <span class="slds-checkbox">
+                            <input type="checkbox" name="default" id="checkbox-20" value="checkbox-20" />
+                            <label class="slds-checkbox__label" for="checkbox-20">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-form-element__label">All contacts in the account owned by you</span>
+                            </label>
+                        </span>
+                    </div>
+                </fieldset>
+                <fieldset class="slds-form-element">
+                    <legend class="slds-form-element__legend slds-form-element__label">Checkbox Group label</legend>
+                    <div class="slds-form-element__control">
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-13" value="radio-13" name="options" />
+                            <label class="slds-radio__label" for="radio-13">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">Lead Generation</span>
+                            </label>
+                        </span>
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-14" value="radio-14" name="options" />
+                            <label class="slds-radio__label" for="radio-14">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">Education Leads</span>
+                            </label>
+                        </span>
+                    </div>
+                </fieldset>
+            </div>-->
+        </lightning:tab>
+        <lightning:tab label="Alerts" id="three">
+            <!--<ui:inputSelect class="single" aura:id="InputSelectSingle" change="{!c.loadAdminSettings}">
+                <aura:iteration items="{!v.profilelist}" var="prof">
+                    <ui:inputSelectOption label="{!prof.Name}" text="{!prof.Id}"/>
+                </aura:iteration>
+            </ui:inputSelect>-->
+            <ui:inputCheckbox aura:id="checkbox-close-date" label="List View" value="{!v.alertsTab.Close_Date__c}"/>
+            <ui:inputCheckbox aura:id="checkbox-notes" label="Alerts" value="{!v.alertsTab.Notes__c}"/>
+            <ui:inputCheckbox aura:id="checkbox-sales" label="Calendar" value="{!v.alertsTab.Sales__c}"/>
+            <ui:inputCheckbox aura:id="checkbox-update-alerts" label="Contacts" value="{!v.alertsTab.Update_Alerts__c }"/>
+            <lightning:button label="Save" title="Save" onclick="{!c.saveAlerts}"/>
+            <lightning:button label="Cancel" title="Cancel" onclick="{!c.cancel}"/>
+        </lightning:tab>
+        <lightning:tab label="Calendar View" id="four">
+            <!--<ui:inputSelect class="single" aura:id="InputSelectSingle" change="{!c.loadAdminSettings}">
+                <aura:iteration items="{!v.profilelist}" var="prof">
+                    <ui:inputSelectOption label="{!prof.Name}" text="{!prof.Id}"/>
+                </aura:iteration>
+            </ui:inputSelect>-->
+            <ui:inputCheckbox aura:id="checkbox-day-list-view" label="List View" value="{!v.calendarViewTab.Day_List_View__c}"/>
+            <ui:inputCheckbox aura:id="checkbox-day-view" label="Alerts" value="{!v.calendarViewTab.Day_View__c}"/>
+            <ui:inputCheckbox aura:id="checkbox-month-view" label="Calendar" value="{!v.calendarViewTab.Month_View__c}"/>
+            <ui:inputCheckbox aura:id="checkbox-week-list-view" label="Contacts" value="{!v.calendarViewTab.Week_List_View__c}"/>
+            <ui:inputCheckbox aura:id="checkbox-week-view" label="Contacts" value="{!v.calendarViewTab.Week_View__c}"/>
+            <lightning:button label="Save" title="Save" onclick="{!c.saveCalendarView}"/>
+            <lightning:button label="Cancel" title="Cancel" onclick="{!c.cancel}"/>
+        </lightning:tab>
+        <lightning:tab label="Contacts" id="five">
+            <!--<ui:inputSelect class="single" aura:id="InputSelectSingle" change="{!c.loadAdminSettings}">
+                <aura:iteration items="{!v.profilelist}" var="prof">
+                    <ui:inputSelectOption label="{!prof.Name}" text="{!prof.Id}"/>
+                </aura:iteration>
+            </ui:inputSelect>-->
+            <ui:inputCheckbox aura:id="checkbox-all-contacts" label="List View" value="{!v.contactsTab.All_Contacts__c}"/>
+            <ui:inputCheckbox aura:id="checkbox-my-contacts" label="Alerts" value="{!v.contactsTab.My_Contacts__c}"/>
+            <lightning:button label="Save" title="Save" onclick="{!c.saveContacts}"/>
+            <lightning:button label="Cancel" title="Cancel" onclick="{!c.cancel}"/>
+        </lightning:tab>
+    </lightning:tabset>  
+</aura:component>

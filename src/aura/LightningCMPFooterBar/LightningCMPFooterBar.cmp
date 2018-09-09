@@ -1,0 +1,50 @@
+<aura:component >
+    
+    <aura:attribute name="StepList" type="string[]" default="['Step 1','Step 2','Step 3','Step C']"/>
+    <aura:attribute name="NextButton" type="string"/>
+    <aura:attribute name="FinishButton" type="string"/>
+    <aura:attribute name="ActiveStep" type="string" default="0"/>
+    <aura:attribute name="ProcessPercentageCompletion" type="string"/>
+    <aura:attribute name="ResetSynProcess" type="string"/>
+    
+    <aura:handler name="change" value="{!v.ActiveStep}" action="{!c.StepChange}"/>
+    <aura:handler name="init" action="{!c.ActivateFirstStep}" value="{!this}"/>
+    <aura:handler name="change" value="{!v.ResetSynProcess}" action="{!c.ResetProcess}"/>
+    
+    <aura:registerEvent name="LightningCMPProcessBuilderNext" type="c:LightningCMPProcessBuilderNext"/>
+    
+	<footer class="slds-modal__footer slds-grid slds-grid_align-spread">
+        <button class="slds-button slds-button_neutral" onclick="{!c.CancelProcess}">Cancel</button>
+        <div class="slds-progress slds-progress_shade">
+            <ol aura:id="StepProgressContainer" class="slds-progress__list">
+                <aura:iteration items="{!v.StepList}" indexVar="index" var="Step">
+                    <aura:if  isTrue="{!and(v.Step == 'Step 1',index)}" >
+                        <li class="slds-progress__item slds-is-active" step-id="{!index}">
+                            <button class="slds-button slds-progress__marker" title="{!Step}">     
+                                <lightning:icon class="StepComplete" iconName="action:approval" size="xx-small"/>
+                                <span class="slds-assistive-text">"{!Step}"</span>
+                            </button>
+                        </li>
+                        <aura:set attribute="else">
+                            <li class="slds-progress__item" step-id="{!index}">
+                                <button class="slds-button slds-progress__marker" title="{!Step + !index}">     
+                                    <lightning:icon class="StepComplete" iconName="action:approval" size="xx-small"/>
+                                    <span class="slds-assistive-text">"{!Step}" {!index}</span>
+                                </button>
+                            </li>
+                        </aura:set>
+                    </aura:if>
+                    
+                    
+                </aura:iteration>
+            </ol>
+            <div class="slds-progress-bar slds-progress-bar_x-small" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
+                <span aura:id="ProcessPercentage" class="slds-progress-bar__value" style="width:0%">
+                    <span class="slds-assistive-text"></span>
+                </span>
+            </div>
+        </div>
+        <button class="{!'slds-button slds-button_brand '+v.NextButton}" onclick="{!c.NextStep}">Next</button>
+        <button class="{!'slds-button slds-button_brand FinishProcess '+v.FinishButton}" onclick="{!c.FinishProcess}">Finish</button>
+    </footer>
+</aura:component>

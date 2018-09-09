@@ -1,0 +1,17 @@
+<aura:component controller="gettestnotes" implements="flexipage:availableForAllPageTypes" access="global" >
+			
+       <aura:registerEvent name="appEvent" type="c:OANotesEvent"/>
+
+    
+    		<div class="slds-select_container">
+            <lightning:select aura:id="seloptid" 
+                              value="Oppt1" 
+                              name="selopt" 
+                              label="Select an Opportunity from below..."
+                              onchange="{!c.fireEvent}">
+                <option value="">...Select an Opportunity...</option>
+                <option value="0062800000EH7MvAAL">0062800000EH7MvAAL</option>
+                <option value="0062800000EH7Mavl1">0062800000EH7Mavl1</option>
+            </lightning:select> 
+            </div>
+</aura:component>

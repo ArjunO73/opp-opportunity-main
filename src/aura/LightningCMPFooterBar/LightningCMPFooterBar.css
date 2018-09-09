@@ -1,0 +1,15 @@
+.THIS .slds-is-completed .slds-button .StepComplete{
+    display:block!important;
+}
+.THIS .slds-button .StepComplete{
+    display:none;
+}
+.THIS .FinishProcess{
+    display:none;
+}
+.THIS .ShowNext, .THIS .ShowFinish{
+    display:block;
+}
+.THIS .HideNext, .THIS .HideFinish{
+    display:none;
+}

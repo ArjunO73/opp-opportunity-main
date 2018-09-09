@@ -1,0 +1,89 @@
+<aura:component >
+    
+    <aura:attribute name="Product" type="PricebookEntry[]"/>
+    <aura:attribute name="items" type="OpportunityLineItem[]"></aura:attribute>
+    <aura:attribute name="SaveMode" type="boolean"></aura:attribute>
+    <div>
+        <table role="grid" class="slds-table slds-table_fixed-layout slds-table_bordered slds-table_resizable-cols slds-no-row-hover slds-scrollable_none">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th aria-label="Name" aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+                        <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <span class="slds-truncate" title="Name">Name</span>
+                            <div class="slds-icon_container">
+                                <lightning:icon class="slds-icon-text-default slds-is-sortable__icon" iconName="utility:arrowdown" size="x-small"/>
+                            </div>
+                        </a>
+                        <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                        <div class="slds-resizable">
+                            <input type="range" min="20" max="1000" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-5" tabindex="-1" />
+                            <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider"></span>
+                            </span>
+                        </div>
+                    </th>
+                    <th aria-label="Quantity" aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+                        <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <span class="slds-truncate" title="Quantity">Quantity</span>
+                            <div class="slds-icon_container">
+                                <lightning:icon class="slds-icon-text-default slds-is-sortable__icon" iconName="utility:arrowdown" size="x-small"/>
+                            </div>
+                        </a>
+                        <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                        <div class="slds-resizable">
+                            <input type="range" min="20" max="1000" aria-label="Quantity column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-6" tabindex="-1" />
+                            <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider"></span>
+                            </span>
+                        </div>
+                    </th>
+                    <th aria-label="List Price" aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+                        <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <span class="slds-truncate" title="List Price">List Price</span>
+                            <div class="slds-icon_container">
+                                <lightning:icon class="slds-icon-text-default slds-is-sortable__icon" iconName="utility:arrowdown" size="x-small"/>
+                            </div>
+                        </a>
+                        <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                        <div class="slds-resizable">
+                            <input type="range" min="20" max="1000" aria-label="List Price column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-7" tabindex="-1" />
+                            <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider"></span>
+                            </span>
+                        </div>
+                    </th>
+                    
+                </tr>
+            </thead>
+            <aura:if isTrue="{!v.SaveMode}">
+                <tbody>
+                    <aura:iteration items="{!v.items}" var="item">
+                        <tr class="slds-hint-parent">
+                            <!--<td role="gridcell" tabindex="0" class="slds-text-align_right" style="width: 3.75rem;">
+                                                    <div class="slds-checkbox_add-button">
+                                                        <input type="checkbox" class="slds-assistive-text" id="{!item.Id}" value="add-checkbox-9" tabindex="-1" />
+                                                        <label for="add-checkbox-9" class="slds-checkbox_faux">
+                                                            <span class="slds-assistive-text">Select item 1</span>
+                                                        </label>
+                                                    </div>
+                                                </td>-->
+                            <th scope="row">
+                                <div class="slds-truncate" title="{!item.Name}">{!item.PricebookEntry.Product2.Name}</div>
+                            </th>
+                            <td role="gridcell">
+                                <ui:inputNumber value="{!item.Quantity}" aura:id="quantity"></ui:inputNumber>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-truncate" title="{!item.UnitPrice}">{!item.UnitPrice}</div>
+                            </td>
+                            
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </aura:if>
+        </table>
+    </div>
+</aura:component>

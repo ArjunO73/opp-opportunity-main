@@ -1,0 +1,14 @@
+.THIS .single.slds-select.select.uiInput.uiInputSelect.uiInput--default.uiInput--select{
+    border: 0;
+    /*background-color: rgb(97, 153, 180);
+    background-image: none;
+    color:#fff;*/
+}
+.THIS .single.slds-select.select.uiInput.uiInputSelect.uiInput--default.uiInput--select:hover{
+    text-decoration: underline;
+}
+
+.THIS .uiInput--select.select:not([multiple]){
+    background-size: 1rem 1rem,100% 100%;
+    /*box-shadow: inset 0 0 0 1000px rgba(0,0,0,.2);*/
+}

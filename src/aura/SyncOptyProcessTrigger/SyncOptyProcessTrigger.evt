@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Sync Opportunity process trigger">
+	<aura:attribute name="SyncOptyProcessTrigger" type="String"/>
+    <aura:attribute name="OptyToSync" type="Id"/>
+</aura:event>

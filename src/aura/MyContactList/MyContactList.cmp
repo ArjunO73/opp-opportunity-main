@@ -1,0 +1,106 @@
+<aura:component controller="ContactController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+
+
+    <aura:attribute name="disableAttrNext" type="Boolean" default="false" />
+    <aura:attribute name="disableAttrPrev" type="Boolean" default="false" />    
+	<aura:attribute name="recordId" type="Id" access="private"/>
+    <aura:attribute name="Contacts" type="Contact" access="global" />
+    <aura:attribute name="transformIndex" type="Integer" access="global" />
+    <aura:attribute name="associateDragAfterEdit" type="String" access="private" />
+    <aura:attribute name="filterlabel" type="String" default="My Key Contacts"/>
+    <aura:attribute name="FilterName" type="String" default="MyKeyContacts"/>
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}" />
+    <aura:handler name="render" value="{!this}" action="{!c.onCalendarRender}"/>
+    <aura:handler event="c:CalendarLoadEvent" action="{!c.onCalendarRender}"/>  
+    <aura:handler name="ContactListFilterChange" action="{!c.myAction}" event="c:ContactListFilterChange"/>
+    
+    <aura:method name="getContactsPanel" action="{!c.myAction}" access="PUBLIC"/>
+
+<!--    <aura:handler name="change" value="{!v.Contacts}" action="{!c.associateDrag}"/>-->
+    
+	<force:recordData aura:id="contactRecord" recordId="{!v.recordId}" targetFields="{!v.Contact}" layoutType="FULL"/>
+    <div class="slds-card carousel-container">
+ <div class="slds-page-header">
+  <div class="slds-grid">
+    <div class="slds-col slds-size_9-of-12 slds-has-flexi-truncate">
+      <div class="slds-media slds-no-space slds-grow">
+        <div class="slds-media__figure">
+          <span class="slds-icon_container slds-icon-standard-opportunity" title="Contacts">
+             <lightning:icon iconName="standard:groups"/>
+          </span>
+        </div>
+        <div class="slds-media__body">
+          <nav>
+            <ol class="slds-breadcrumb slds-line-height_reset">
+              <li class="slds-breadcrumb__item">
+                <span>Contacts</span>
+              </li>
+            </ol>
+          </nav>
+          <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="Contacts">
+		  <c:ListFilterContacts/>
+		  </h1>
+        </div>
+      </div>
+    </div>
+	<div class="slds-col slds-size_3-of-12">
+		<lightning:buttonMenu menuAlignment="right" class="slds-float_right slds-media slds-media_center slds-m-right_xx-small" iconName="utility:settings" alternativeText="Settings" onselect="{! c.handleMenuSelect }">
+			<lightning:menuItem disabled="true" iconName="utility:new" label="Create New Contact" value="NewContact">
+			</lightning:menuItem>
+		</lightning:buttonMenu>
+	</div>
+  </div>
+</div>
+        <div class="contact-content">
+        <div class="controls">
+            <div class="leftBtn">
+                <lightning:button value="#" label="&lt;&lt;" onclick="{!c.previousRecord}" class="prev" disabled="{!v.disabelAttrPrev}"/>
+            </div>
+            <div class="rightBtn">
+                <lightning:button value="#" label="&gt;&gt;" onclick="{!c.nextRecord}" class="next" disabled="{!v.disableAttrNext}"/>
+            </div>            
+        </div>
+        <div class="slds-scrollable" style="max-height: inherit;">
+            <div class="slds-carousel">
+                <div class="slds-carousel__stage">
+                    <div class="slds-carousel__panels" style="transform:translateX(-0%)">
+                        <aura:iteration items="{!v.Contacts}" var="item">
+                        <!--<c:ContactCard item="{!item}"></c:ContactCard>-->
+                         <div id="{!item.Id}" class="slds-size_1-of-3 slds-carousel__panel row1" role="tabpanel" aria-hidden="true">
+                            <a href="javascript:void(0);" class="slds-carousel__panel-action slds-text-link_reset" tabindex="0">
+                              <div class="slds-carousel__content">
+                                <!--<h2 class="slds-carousel__content-title">{!item.Name}</h2>-->
+                                <!--<p>{!item.Email}</p>-->
+                                <!-- HEADING AREA -->
+                                <div class="slds-media slds-no-space slds-grow slds-align_absolute-center contact-avatar">
+                                  <div id="{!item.Id}" onclick="{!c.editContact}" class="slds-media__figure">
+                                    <span title="{!item.Name}" class="slds-avatar slds-avatar_circle slds-avatar_large">
+                                        
+                                        <aura:if isTrue="{!item.Email != null}">
+                                            <img src="{!$Resource.avatar + '/avatar/'+item.Email+'.jpg'}" alt="" />
+                                            <aura:set attribute="else">
+                                                <img src="{!$Resource.avatar + '/avatar/avatar1.jpg'}" alt="" />  
+                                            </aura:set>
+                                        </aura:if>
+                                    </span>
+                                  </div>
+                                  <div id="{!item.Id}" onclick="{!c.editContact}" class="slds-media__body">
+                                    <h1 class="slds-text-title_caps slds-m-right_small slds-align-middle slds-truncate" title="{!item.Name}">{!item.Name}</h1>
+                                    <!--<p class="slds-text-title_caps slds-line-height_reset">{!item.Email}</p>-->
+                                    <!--<p class="slds-text-title_caps slds-line-height_reset">{!item.MailingStreet}</p>-->
+                                  </div>
+                                </div>
+                                <!-- / HEADING AREA -->
+                              </div>
+                            </a>
+                          </div>                        
+                        </aura:iteration>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+    </div>
+</aura:component>

@@ -1,0 +1,28 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" controller="OptyLightningController">
+	
+    <aura:attribute name="Opportunities" type="Opportunity[]"/>
+    <aura:attribute name="FilterName" type="String" default="MyOptyList"/>
+    <aura:attribute name="Favorites" type="String"/>
+    <aura:attribute name="filterlabel" type="String" default="My Opportunities"/>
+    <aura:attribute name="ShowSyncOptyProcess" type="String" default="Hide"/>
+    <aura:attribute name="OptyToSync" type="String"/>
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler name="OptyListFilterChange" action="{!c.doInit}" event="c:OptyListFilterChange"/>
+    <aura:handler name="NewFavoriteOpty" action="{!c.NewFavoriteOpty}" event="c:NewFavoriteOpty"/>
+    <aura:handler name="onSaveSuccess" event="force:recordSaveSuccess" action="{!c.handleSaveSuccess}"/>
+    <aura:handler name="ShowSyncOptyProcess" event="c:SyncOptyProcessTrigger" action="{!c.handleShowSyncOptyProcess}"/>
+    
+    <!--lightning:listView aura:id="listViewOpportunitiess"
+                    objectApiName="Opportunity"
+                    listName="MyOpportunities"
+                    rows="5"
+                    showActionBar="true"
+                    enableInlineEdit="true"
+                    showRowLevelActions="true"
+                /-->
+    <lightning:layoutItem padding="around-small">
+    	<c:OppListCMP filterlabel="{!v.filterlabel}" Opportunities="{!v.Opportunities}"/>
+    </lightning:layoutItem>
+    <c:LightningCMPProcessbuilder OptyToSync="{!v.OptyToSync}" ProcessName="Sync Opty" ShowSyncOptyProcess="{!v.ShowSyncOptyProcess}"/>
+</aura:component>

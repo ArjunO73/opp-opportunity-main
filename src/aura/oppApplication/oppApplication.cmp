@@ -1,0 +1,7 @@
+<aura:component extensible="true" implements="force:appHostable" controller="AdminSettingController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="adminSettings" type="Admin_Setup__c"/>
+    <aura:attribute name="admin" type="Admin"/>
+    <c:oppLayout adminSettings="{!v.adminSettings}" userPreference="{!v.admin}"/>
+    <!--c:oppSettings/-->
+</aura:component>
